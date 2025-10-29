@@ -1,0 +1,47 @@
+@import './palettes/dracula.css';
+
+/* Theme: Dracula */
+.theme-dracula {
+  --background: var(--color-dracula-background);
+  --foreground: var(--color-dracula-foreground);
+  --card: var(--color-dracula-current-line);
+  --card-foreground: var(--color-dracula-foreground);
+  --popover: var(--color-dracula-current-line);
+  --popover-foreground: var(--color-dracula-foreground);
+  --primary: var(--color-dracula-purple);
+  --primary-foreground: var(--color-dracula-background);
+  --secondary: var(--color-dracula-surface);
+  --secondary-foreground: var(--color-dracula-foreground);
+  --muted: var(--color-dracula-surface);
+  --muted-foreground: var(--color-dracula-comment);
+  --accent: var(--color-dracula-surface);
+  --accent-foreground: var(--color-dracula-foreground);
+  --destructive: var(--color-dracula-red);
+  --border: var(--color-dracula-current-line);
+  --input: var(--color-dracula-current-line);
+  --ring: var(--color-dracula-purple);
+  --chart-1: var(--color-dracula-cyan);
+  --chart-2: var(--color-dracula-green);
+  --chart-3: var(--color-dracula-yellow);
+  --chart-4: var(--color-dracula-red);
+  --chart-5: var(--color-dracula-orange);
+  --sidebar: var(--color-dracula-background);
+  --sidebar-foreground: var(--color-dracula-foreground);
+  --sidebar-primary: var(--color-dracula-purple);
+  --sidebar-primary-foreground: var(--color-dracula-background);
+  --sidebar-accent: var(--color-dracula-surface);
+  --sidebar-accent-foreground: var(--color-dracula-foreground);
+  --sidebar-border: var(--color-dracula-current-line);
+  --sidebar-ring: var(--color-dracula-purple);
+
+  /* Semantic Colors */
+  --color-danger: var(--color-dracula-red);
+  --color-warning: var(--color-dracula-yellow);
+  --color-success: var(--color-dracula-green);
+  --color-info: var(--color-dracula-cyan);
+  --color-surface: var(--color-dracula-surface);
+
+  /* Default priority background opacity */
+  --priority-bg-opacity: 0.1;
+  --priority-bg-hover-opacity: 0.2;
+}

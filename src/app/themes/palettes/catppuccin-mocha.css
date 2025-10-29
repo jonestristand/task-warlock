@@ -1,0 +1,29 @@
+/* Catppuccin Mocha Color Palette */
+@theme {
+  --color-ctp-rosewater: rgb(245, 224, 220);
+  --color-ctp-flamingo: rgb(242, 205, 205);
+  --color-ctp-pink: rgb(245, 194, 231);
+  --color-ctp-mauve: rgb(203, 166, 247);
+  --color-ctp-red: rgb(243, 139, 168);
+  --color-ctp-maroon: rgb(235, 160, 172);
+  --color-ctp-peach: rgb(250, 179, 135);
+  --color-ctp-yellow: rgb(249, 226, 175);
+  --color-ctp-green: rgb(166, 227, 161);
+  --color-ctp-teal: rgb(148, 226, 213);
+  --color-ctp-sky: rgb(137, 220, 235);
+  --color-ctp-sapphire: rgb(116, 199, 236);
+  --color-ctp-blue: rgb(137, 180, 250);
+  --color-ctp-lavender: rgb(180, 190, 254);
+  --color-ctp-text: rgb(205, 214, 244);
+  --color-ctp-subtext1: rgb(186, 194, 222);
+  --color-ctp-subtext0: rgb(166, 173, 200);
+  --color-ctp-overlay2: rgb(147, 153, 178);
+  --color-ctp-overlay1: rgb(127, 132, 156);
+  --color-ctp-overlay0: rgb(108, 112, 134);
+  --color-ctp-surface2: rgb(88, 91, 112);
+  --color-ctp-surface1: rgb(69, 71, 90);
+  --color-ctp-surface0: rgb(49, 50, 68);
+  --color-ctp-base: rgb(30, 30, 46);
+  --color-ctp-mantle: rgb(24, 24, 37);
+  --color-ctp-crust: rgb(17, 17, 27);
+}

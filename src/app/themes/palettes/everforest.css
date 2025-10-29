@@ -1,0 +1,20 @@
+/* Everforest Color Palette */
+@theme {
+  --color-everforest-bg0: rgb(45, 53, 59);
+  --color-everforest-bg1: rgb(52, 63, 68);
+  --color-everforest-bg2: rgb(61, 72, 77);
+  --color-everforest-bg3: rgb(71, 82, 88);
+  --color-everforest-bg4: rgb(79, 88, 94);
+  --color-everforest-bg5: rgb(86, 99, 95);
+  --color-everforest-fg: rgb(211, 198, 170);
+  --color-everforest-red: rgb(230, 126, 128);
+  --color-everforest-orange: rgb(230, 152, 117);
+  --color-everforest-yellow: rgb(219, 188, 127);
+  --color-everforest-green: rgb(167, 192, 128);
+  --color-everforest-aqua: rgb(131, 192, 146);
+  --color-everforest-blue: rgb(127, 187, 179);
+  --color-everforest-purple: rgb(214, 153, 182);
+  --color-everforest-grey0: rgb(122, 132, 120);
+  --color-everforest-grey1: rgb(133, 146, 137);
+  --color-everforest-grey2: rgb(157, 169, 160);
+}

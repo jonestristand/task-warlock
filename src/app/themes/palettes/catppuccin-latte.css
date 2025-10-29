@@ -1,0 +1,29 @@
+/* Catppuccin Latte Color Palette */
+@theme {
+  --color-ctp-latte-rosewater: rgb(220, 138, 120);
+  --color-ctp-latte-flamingo: rgb(221, 120, 120);
+  --color-ctp-latte-pink: rgb(234, 118, 203);
+  --color-ctp-latte-mauve: rgb(136, 57, 239);
+  --color-ctp-latte-red: rgb(210, 15, 57);
+  --color-ctp-latte-maroon: rgb(230, 69, 83);
+  --color-ctp-latte-peach: rgb(254, 100, 11);
+  --color-ctp-latte-yellow: rgb(223, 142, 29);
+  --color-ctp-latte-green: rgb(64, 160, 43);
+  --color-ctp-latte-teal: rgb(23, 146, 153);
+  --color-ctp-latte-sky: rgb(4, 165, 229);
+  --color-ctp-latte-sapphire: rgb(32, 159, 181);
+  --color-ctp-latte-blue: rgb(30, 102, 245);
+  --color-ctp-latte-lavender: rgb(114, 135, 253);
+  --color-ctp-latte-text: rgb(76, 79, 105);
+  --color-ctp-latte-subtext1: rgb(92, 95, 119);
+  --color-ctp-latte-subtext0: rgb(108, 111, 133);
+  --color-ctp-latte-overlay2: rgb(124, 127, 147);
+  --color-ctp-latte-overlay1: rgb(140, 143, 161);
+  --color-ctp-latte-overlay0: rgb(156, 160, 176);
+  --color-ctp-latte-surface2: rgb(172, 176, 190);
+  --color-ctp-latte-surface1: rgb(188, 192, 204);
+  --color-ctp-latte-surface0: rgb(204, 208, 218);
+  --color-ctp-latte-base: rgb(239, 241, 245);
+  --color-ctp-latte-mantle: rgb(230, 233, 239);
+  --color-ctp-latte-crust: rgb(220, 224, 232);
+}

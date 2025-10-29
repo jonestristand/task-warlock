@@ -1,0 +1,16 @@
+/* Dracula Color Palette */
+@theme {
+  --color-dracula-background: rgb(40, 42, 54);
+  --color-dracula-current-line: rgb(68, 71, 90);
+  --color-dracula-foreground: rgb(248, 248, 242);
+  --color-dracula-comment: rgb(98, 114, 164);
+  --color-dracula-cyan: rgb(139, 233, 253);
+  --color-dracula-green: rgb(80, 250, 123);
+  --color-dracula-orange: rgb(255, 184, 108);
+  --color-dracula-pink: rgb(255, 121, 198);
+  --color-dracula-purple: rgb(189, 147, 249);
+  --color-dracula-red: rgb(255, 85, 85);
+  --color-dracula-yellow: rgb(241, 250, 140);
+  --color-dracula-selection: rgb(68, 71, 90);
+  --color-dracula-surface: rgb(68, 71, 90);
+}

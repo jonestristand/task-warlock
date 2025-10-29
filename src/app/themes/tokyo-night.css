@@ -1,0 +1,47 @@
+@import './palettes/tokyo-night.css';
+
+/* Theme: Tokyo Night */
+.theme-tokyo-night {
+  --background: var(--color-tokyo-background);
+  --foreground: var(--color-tokyo-foreground);
+  --card: var(--color-tokyo-surface0);
+  --card-foreground: var(--color-tokyo-foreground);
+  --popover: var(--color-tokyo-surface0);
+  --popover-foreground: var(--color-tokyo-foreground);
+  --primary: var(--color-tokyo-blue);
+  --primary-foreground: var(--color-tokyo-background);
+  --secondary: var(--color-tokyo-surface1);
+  --secondary-foreground: var(--color-tokyo-foreground);
+  --muted: var(--color-tokyo-surface1);
+  --muted-foreground: var(--color-tokyo-comment);
+  --accent: var(--color-tokyo-surface1);
+  --accent-foreground: var(--color-tokyo-foreground);
+  --destructive: var(--color-tokyo-red);
+  --border: var(--color-tokyo-surface2);
+  --input: var(--color-tokyo-surface2);
+  --ring: var(--color-tokyo-blue);
+  --chart-1: var(--color-tokyo-blue);
+  --chart-2: var(--color-tokyo-green);
+  --chart-3: var(--color-tokyo-yellow);
+  --chart-4: var(--color-tokyo-red);
+  --chart-5: var(--color-tokyo-orange);
+  --sidebar: var(--color-tokyo-surface0);
+  --sidebar-foreground: var(--color-tokyo-foreground);
+  --sidebar-primary: var(--color-tokyo-blue);
+  --sidebar-primary-foreground: var(--color-tokyo-background);
+  --sidebar-accent: var(--color-tokyo-surface1);
+  --sidebar-accent-foreground: var(--color-tokyo-foreground);
+  --sidebar-border: var(--color-tokyo-surface2);
+  --sidebar-ring: var(--color-tokyo-blue);
+
+  /* Semantic Colors */
+  --color-danger: var(--color-tokyo-red);
+  --color-warning: var(--color-tokyo-yellow);
+  --color-success: var(--color-tokyo-green);
+  --color-info: var(--color-tokyo-cyan);
+  --color-surface: var(--color-tokyo-surface1);
+
+  /* Default priority background opacity */
+  --priority-bg-opacity: 0.1;
+  --priority-bg-hover-opacity: 0.2;
+}

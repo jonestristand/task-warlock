@@ -1,0 +1,19 @@
+/* Nord Color Palette */
+@theme {
+  --color-nord-nord0: rgb(46, 52, 64);
+  --color-nord-nord1: rgb(59, 66, 82);
+  --color-nord-nord2: rgb(67, 76, 94);
+  --color-nord-nord3: rgb(76, 86, 106);
+  --color-nord-nord4: rgb(216, 222, 233);
+  --color-nord-nord5: rgb(229, 233, 240);
+  --color-nord-nord6: rgb(236, 239, 244);
+  --color-nord-nord7: rgb(143, 188, 187);
+  --color-nord-nord8: rgb(136, 192, 208);
+  --color-nord-nord9: rgb(129, 161, 193);
+  --color-nord-nord10: rgb(94, 129, 172);
+  --color-nord-nord11: rgb(191, 97, 106);
+  --color-nord-nord12: rgb(208, 135, 112);
+  --color-nord-nord13: rgb(235, 203, 139);
+  --color-nord-nord14: rgb(163, 190, 140);
+  --color-nord-nord15: rgb(180, 142, 173);
+}

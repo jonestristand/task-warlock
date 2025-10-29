@@ -1,0 +1,47 @@
+/* Rose Pine Main Color Palette */
+@theme {
+  --color-rosepine-main-base: rgb(25, 23, 36);
+  --color-rosepine-main-surface: rgb(31, 29, 46);
+  --color-rosepine-main-overlay: rgb(38, 35, 58);
+  --color-rosepine-main-muted: rgb(110, 106, 134);
+  --color-rosepine-main-subtle: rgb(144, 140, 170);
+  --color-rosepine-main-text: rgb(224, 222, 244);
+  --color-rosepine-main-love: rgb(235, 111, 146);
+  --color-rosepine-main-gold: rgb(246, 193, 119);
+  --color-rosepine-main-rose: rgb(235, 188, 186);
+  --color-rosepine-main-pine: rgb(49, 116, 143);
+  --color-rosepine-main-foam: rgb(156, 207, 216);
+  --color-rosepine-main-iris: rgb(196, 167, 231);
+}
+
+/* Rose Pine Moon Color Palette */
+@theme {
+  --color-rosepine-moon-base: rgb(35, 33, 54);
+  --color-rosepine-moon-surface: rgb(42, 39, 63);
+  --color-rosepine-moon-overlay: rgb(57, 53, 82);
+  --color-rosepine-moon-muted: rgb(110, 106, 134);
+  --color-rosepine-moon-subtle: rgb(144, 140, 170);
+  --color-rosepine-moon-text: rgb(224, 222, 244);
+  --color-rosepine-moon-love: rgb(235, 111, 146);
+  --color-rosepine-moon-gold: rgb(246, 193, 119);
+  --color-rosepine-moon-rose: rgb(234, 154, 151);
+  --color-rosepine-moon-pine: rgb(62, 143, 176);
+  --color-rosepine-moon-foam: rgb(156, 207, 216);
+  --color-rosepine-moon-iris: rgb(196, 167, 231);
+}
+
+/* Rose Pine Dawn Color Palette */
+@theme {
+  --color-rosepine-dawn-base: rgb(250, 244, 237);
+  --color-rosepine-dawn-surface: rgb(255, 250, 243);
+  --color-rosepine-dawn-overlay: rgb(242, 233, 225);
+  --color-rosepine-dawn-muted: rgb(152, 147, 165);
+  --color-rosepine-dawn-subtle: rgb(121, 117, 147);
+  --color-rosepine-dawn-text: rgb(70, 66, 97);
+  --color-rosepine-dawn-love: rgb(180, 99, 122);
+  --color-rosepine-dawn-gold: rgb(234, 157, 52);
+  --color-rosepine-dawn-rose: rgb(215, 130, 126);
+  --color-rosepine-dawn-pine: rgb(40, 105, 131);
+  --color-rosepine-dawn-foam: rgb(86, 148, 159);
+  --color-rosepine-dawn-iris: rgb(144, 122, 169);
+}

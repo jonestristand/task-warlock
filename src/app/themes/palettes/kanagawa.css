@@ -1,0 +1,54 @@
+/* Kanagawa Wave Color Palette */
+@theme {
+  --color-kanagawa-wave-fujiWhite: rgb(220, 215, 186);
+  --color-kanagawa-wave-oldWhite: rgb(200, 192, 147);
+  --color-kanagawa-wave-sumiInk0: rgb(22, 22, 29);
+  --color-kanagawa-wave-sumiInk1: rgb(24, 24, 32);
+  --color-kanagawa-wave-sumiInk2: rgb(26, 26, 34);
+  --color-kanagawa-wave-sumiInk3: rgb(31, 31, 40);
+  --color-kanagawa-wave-crystalBlue: rgb(126, 156, 216);
+  --color-kanagawa-wave-springViolet1: rgb(147, 138, 169);
+  --color-kanagawa-wave-oniViolet: rgb(149, 127, 184);
+  --color-kanagawa-wave-waveRed: rgb(228, 104, 118);
+  --color-kanagawa-wave-peachRed: rgb(255, 93, 98);
+  --color-kanagawa-wave-carpYellow: rgb(230, 195, 132);
+  --color-kanagawa-wave-springGreen: rgb(152, 187, 108);
+  --color-kanagawa-wave-waveAqua2: rgb(122, 168, 159);
+}
+
+/* Kanagawa Dragon Color Palette */
+@theme {
+  --color-kanagawa-dragon-dragonBlack0: rgb(13, 12, 12);
+  --color-kanagawa-dragon-dragonBlack1: rgb(18, 18, 15);
+  --color-kanagawa-dragon-dragonBlack2: rgb(29, 28, 25);
+  --color-kanagawa-dragon-dragonBlack3: rgb(24, 22, 22);
+  --color-kanagawa-dragon-dragonBlack4: rgb(40, 39, 39);
+  --color-kanagawa-dragon-dragonWhite: rgb(197, 201, 197);
+  --color-kanagawa-dragon-dragonGreen: rgb(135, 169, 135);
+  --color-kanagawa-dragon-dragonOrange: rgb(182, 146, 123);
+  --color-kanagawa-dragon-dragonBlue: rgb(139, 164, 176);
+  --color-kanagawa-dragon-dragonViolet: rgb(137, 146, 167);
+  --color-kanagawa-dragon-dragonRed: rgb(196, 116, 110);
+  --color-kanagawa-dragon-dragonAqua: rgb(142, 164, 162);
+  --color-kanagawa-dragon-dragonYellow: rgb(196, 178, 138);
+  --color-kanagawa-dragon-dragonPink: rgb(162, 146, 163);
+}
+
+/* Kanagawa Lotus Color Palette */
+@theme {
+  --color-kanagawa-lotus-lotusInk1: rgb(84, 84, 100);
+  --color-kanagawa-lotus-lotusInk2: rgb(67, 67, 108);
+  --color-kanagawa-lotus-lotusWhite0: rgb(213, 206, 163);
+  --color-kanagawa-lotus-lotusWhite1: rgb(220, 213, 172);
+  --color-kanagawa-lotus-lotusWhite2: rgb(229, 221, 176);
+  --color-kanagawa-lotus-lotusWhite3: rgb(242, 236, 188);
+  --color-kanagawa-lotus-lotusPink: rgb(179, 91, 121);
+  --color-kanagawa-lotus-lotusRed: rgb(200, 64, 83);
+  --color-kanagawa-lotus-lotusOrange: rgb(204, 109, 0);
+  --color-kanagawa-lotus-lotusYellow: rgb(222, 152, 0);
+  --color-kanagawa-lotus-lotusGreen: rgb(111, 137, 78);
+  --color-kanagawa-lotus-lotusGreen2: rgb(110, 145, 95);
+  --color-kanagawa-lotus-lotusBlue1: rgb(199, 215, 224);
+  --color-kanagawa-lotus-lotusBlue4: rgb(77, 105, 155);
+  --color-kanagawa-lotus-lotusViolet2: rgb(118, 107, 144);
+}

@@ -1,0 +1,48 @@
+@import './palettes/catppuccin-mocha.css';
+
+/* Theme: Catppuccin Mocha (Default Dark) */
+.theme-catppuccin-mocha,
+.dark {
+  --background: var(--color-ctp-base);
+  --foreground: var(--color-ctp-text);
+  --card: var(--color-ctp-surface0);
+  --card-foreground: var(--color-ctp-text);
+  --popover: var(--color-ctp-surface0);
+  --popover-foreground: var(--color-ctp-text);
+  --primary: var(--color-ctp-mauve);
+  --primary-foreground: var(--color-ctp-base);
+  --secondary: var(--color-ctp-surface1);
+  --secondary-foreground: var(--color-ctp-text);
+  --muted: var(--color-ctp-surface1);
+  --muted-foreground: var(--color-ctp-subtext1);
+  --accent: var(--color-ctp-surface1);
+  --accent-foreground: var(--color-ctp-text);
+  --destructive: var(--color-ctp-red);
+  --border: var(--color-ctp-surface2);
+  --input: var(--color-ctp-surface2);
+  --ring: var(--color-ctp-mauve);
+  --chart-1: var(--color-ctp-blue);
+  --chart-2: var(--color-ctp-green);
+  --chart-3: var(--color-ctp-yellow);
+  --chart-4: var(--color-ctp-red);
+  --chart-5: var(--color-ctp-peach);
+  --sidebar: var(--color-ctp-mantle);
+  --sidebar-foreground: var(--color-ctp-text);
+  --sidebar-primary: var(--color-ctp-mauve);
+  --sidebar-primary-foreground: var(--color-ctp-base);
+  --sidebar-accent: var(--color-ctp-surface1);
+  --sidebar-accent-foreground: var(--color-ctp-text);
+  --sidebar-border: var(--color-ctp-surface2);
+  --sidebar-ring: var(--color-ctp-mauve);
+
+  /* Semantic Colors */
+  --color-danger: var(--color-ctp-red);
+  --color-warning: var(--color-ctp-yellow);
+  --color-success: var(--color-ctp-green);
+  --color-info: var(--color-ctp-blue);
+  --color-surface: var(--color-ctp-surface1);
+
+  /* Default priority background opacity */
+  --priority-bg-opacity: 0.1;
+  --priority-bg-hover-opacity: 0.2;
+}

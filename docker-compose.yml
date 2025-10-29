@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  task-warlock:
+    build: .
+    # image: task-warlock:latest
+    container_name: task-warlock
+    ports:
+      - "3000:3000"
+    volumes:
+      # Persist TaskWarrior data (recommended)
+      - ./taskwarlock-data:/home/nextjs/.task
+
+      # Optional: Persist app settings (theme, preferences, filters)
+      # - ./taskwarlock-settings:/home/nextjs/.taskwarlock
+
+      # Optional: Mount custom .taskrc configuration
+      # - ./taskrc:/home/nextjs/.taskrc:ro
+
+      # Optional: Mount custom TaskWarrior hooks
+      # - ./task-hooks:/home/nextjs/.task/hooks
+    environment:
+      # Optional: Set Node environment
+      - NODE_ENV=production
+      
+      # Optional: Disable Next.js telemetry
+      - NEXT_TELEMETRY_DISABLED=1
+    restart: unless-stopped
+    
+    # Optional: Set container timezone
+    # environment:
+    #   - TZ=America/New_York

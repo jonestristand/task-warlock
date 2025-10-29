@@ -1,0 +1,47 @@
+@import './palettes/everforest.css';
+
+/* Theme: Everforest */
+.theme-everforest {
+  --background: var(--color-everforest-bg0);
+  --foreground: var(--color-everforest-fg);
+  --card: var(--color-everforest-bg1);
+  --card-foreground: var(--color-everforest-fg);
+  --popover: var(--color-everforest-bg1);
+  --popover-foreground: var(--color-everforest-fg);
+  --primary: var(--color-everforest-green);
+  --primary-foreground: var(--color-everforest-bg0);
+  --secondary: var(--color-everforest-bg2);
+  --secondary-foreground: var(--color-everforest-fg);
+  --muted: var(--color-everforest-bg2);
+  --muted-foreground: var(--color-everforest-grey1);
+  --accent: var(--color-everforest-bg2);
+  --accent-foreground: var(--color-everforest-fg);
+  --destructive: var(--color-everforest-red);
+  --border: var(--color-everforest-bg3);
+  --input: var(--color-everforest-bg3);
+  --ring: var(--color-everforest-green);
+  --chart-1: var(--color-everforest-blue);
+  --chart-2: var(--color-everforest-green);
+  --chart-3: var(--color-everforest-yellow);
+  --chart-4: var(--color-everforest-red);
+  --chart-5: var(--color-everforest-purple);
+  --sidebar: var(--color-everforest-bg1);
+  --sidebar-foreground: var(--color-everforest-fg);
+  --sidebar-primary: var(--color-everforest-green);
+  --sidebar-primary-foreground: var(--color-everforest-bg0);
+  --sidebar-accent: var(--color-everforest-bg2);
+  --sidebar-accent-foreground: var(--color-everforest-fg);
+  --sidebar-border: var(--color-everforest-bg3);
+  --sidebar-ring: var(--color-everforest-green);
+
+  /* Semantic Colors */
+  --color-danger: var(--color-everforest-red);
+  --color-warning: var(--color-everforest-orange);
+  --color-success: var(--color-everforest-green);
+  --color-info: var(--color-everforest-blue);
+  --color-surface: var(--color-everforest-bg2);
+
+  /* Default priority background opacity */
+  --priority-bg-opacity: 0.1;
+  --priority-bg-hover-opacity: 0.2;
+}

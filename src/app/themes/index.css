@@ -1,0 +1,15 @@
+/* Import all theme files */
+@import './catppuccin-mocha.css';
+@import './catppuccin-latte.css';
+@import './dracula.css';
+@import './kanagawa-wave.css';
+@import './kanagawa-dragon.css';
+@import './kanagawa-lotus.css';
+@import './nord.css';
+@import './nord-light.css';
+@import './one-dark.css';
+@import './rose-pine.css';
+@import './rose-pine-moon.css';
+@import './rose-pine-dawn.css';
+@import './tokyo-night.css';
+@import './everforest.css';

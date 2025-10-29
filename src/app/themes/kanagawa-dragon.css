@@ -1,0 +1,47 @@
+@import './palettes/kanagawa.css';
+
+/* Theme: Kanagawa Dragon (Dark) */
+.theme-kanagawa-dragon {
+  --background: var(--color-kanagawa-dragon-dragonBlack0);
+  --foreground: var(--color-kanagawa-dragon-dragonWhite);
+  --card: var(--color-kanagawa-dragon-dragonBlack1);
+  --card-foreground: var(--color-kanagawa-dragon-dragonWhite);
+  --popover: var(--color-kanagawa-dragon-dragonBlack1);
+  --popover-foreground: var(--color-kanagawa-dragon-dragonWhite);
+  --primary: var(--color-kanagawa-dragon-dragonBlue);
+  --primary-foreground: var(--color-kanagawa-dragon-dragonBlack0);
+  --secondary: var(--color-kanagawa-dragon-dragonBlack2);
+  --secondary-foreground: var(--color-kanagawa-dragon-dragonWhite);
+  --muted: var(--color-kanagawa-dragon-dragonBlack2);
+  --muted-foreground: var(--color-kanagawa-dragon-dragonWhite);
+  --accent: var(--color-kanagawa-dragon-dragonBlack2);
+  --accent-foreground: var(--color-kanagawa-dragon-dragonWhite);
+  --destructive: var(--color-kanagawa-dragon-dragonRed);
+  --border: var(--color-kanagawa-dragon-dragonBlack3);
+  --input: var(--color-kanagawa-dragon-dragonBlack3);
+  --ring: var(--color-kanagawa-dragon-dragonBlue);
+  --chart-1: var(--color-kanagawa-dragon-dragonBlue);
+  --chart-2: var(--color-kanagawa-dragon-dragonGreen);
+  --chart-3: var(--color-kanagawa-dragon-dragonYellow);
+  --chart-4: var(--color-kanagawa-dragon-dragonRed);
+  --chart-5: var(--color-kanagawa-dragon-dragonViolet);
+  --sidebar: var(--color-kanagawa-dragon-dragonBlack1);
+  --sidebar-foreground: var(--color-kanagawa-dragon-dragonWhite);
+  --sidebar-primary: var(--color-kanagawa-dragon-dragonBlue);
+  --sidebar-primary-foreground: var(--color-kanagawa-dragon-dragonBlack0);
+  --sidebar-accent: var(--color-kanagawa-dragon-dragonBlack2);
+  --sidebar-accent-foreground: var(--color-kanagawa-dragon-dragonWhite);
+  --sidebar-border: var(--color-kanagawa-dragon-dragonBlack3);
+  --sidebar-ring: var(--color-kanagawa-dragon-dragonBlue);
+
+  /* Semantic Colors */
+  --color-danger: var(--color-kanagawa-dragon-dragonRed);
+  --color-warning: var(--color-kanagawa-dragon-dragonOrange);
+  --color-success: var(--color-kanagawa-dragon-dragonGreen);
+  --color-info: var(--color-kanagawa-dragon-dragonBlue);
+  --color-surface: var(--color-kanagawa-dragon-dragonBlack2);
+
+  /* Enhanced priority backgrounds for Kanagawa */
+  --priority-bg-opacity: 0.15;
+  --priority-bg-hover-opacity: 0.25;
+}

@@ -1,0 +1,45 @@
+/* Theme: Catppuccin Latte (Light) */
+.theme-catppuccin-latte {
+  --background: rgb(239, 241, 245); /* #eff1f5 */
+  --foreground: rgb(76, 79, 105); /* #4c4f69 */
+  --card: rgb(255, 255, 255); /* #ffffff */
+  --card-foreground: rgb(76, 79, 105); /* #4c4f69 */
+  --popover: rgb(255, 255, 255); /* #ffffff */
+  --popover-foreground: rgb(76, 79, 105); /* #4c4f69 */
+  --primary: rgb(136, 57, 239); /* #8839ef */
+  --primary-foreground: rgb(239, 241, 245); /* #eff1f5 */
+  --secondary: rgb(230, 233, 239); /* #e6e9ef */
+  --secondary-foreground: rgb(76, 79, 105); /* #4c4f69 */
+  --muted: rgb(230, 233, 239); /* #e6e9ef */
+  --muted-foreground: rgb(108, 111, 133); /* #6c6f85 */
+  --accent: rgb(230, 233, 239); /* #e6e9ef */
+  --accent-foreground: rgb(76, 79, 105); /* #4c4f69 */
+  --destructive: rgb(210, 15, 57); /* #d20f39 */
+  --border: rgb(204, 208, 218); /* #ccd0da */
+  --input: rgb(204, 208, 218); /* #ccd0da */
+  --ring: rgb(136, 57, 239); /* #8839ef */
+  --chart-1: rgb(30, 102, 245); /* #1e66f5 */
+  --chart-2: rgb(64, 160, 43); /* #40a02b */
+  --chart-3: rgb(223, 142, 29); /* #df8e1d */
+  --chart-4: rgb(210, 15, 57); /* #d20f39 */
+  --chart-5: rgb(254, 100, 11); /* #fe640b */
+  --sidebar: rgb(220, 224, 232); /* #dce0e8 */
+  --sidebar-foreground: rgb(76, 79, 105); /* #4c4f69 */
+  --sidebar-primary: rgb(136, 57, 239); /* #8839ef */
+  --sidebar-primary-foreground: rgb(239, 241, 245); /* #eff1f5 */
+  --sidebar-accent: rgb(230, 233, 239); /* #e6e9ef */
+  --sidebar-accent-foreground: rgb(76, 79, 105); /* #4c4f69 */
+  --sidebar-border: rgb(204, 208, 218); /* #ccd0da */
+  --sidebar-ring: rgb(136, 57, 239); /* #8839ef */
+
+  /* Semantic Colors */
+  --color-danger: rgb(210, 15, 57); /* #d20f39 */
+  --color-warning: rgb(223, 142, 29); /* #df8e1d */
+  --color-success: rgb(64, 160, 43); /* #40a02b */
+  --color-info: rgb(30, 102, 245); /* #1e66f5 */
+  --color-surface: rgb(230, 233, 239); /* #e6e9ef */
+
+  /* Default priority background opacity */
+  --priority-bg-opacity: 0.1;
+  --priority-bg-hover-opacity: 0.2;
+}

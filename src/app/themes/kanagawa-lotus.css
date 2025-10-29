@@ -1,0 +1,47 @@
+@import './palettes/kanagawa.css';
+
+/* Theme: Kanagawa Lotus (Light) */
+.theme-kanagawa-lotus {
+  --background: var(--color-kanagawa-lotus-lotusWhite3);
+  --foreground: var(--color-kanagawa-lotus-lotusInk1);
+  --card: var(--color-kanagawa-lotus-lotusWhite2);
+  --card-foreground: var(--color-kanagawa-lotus-lotusInk1);
+  --popover: var(--color-kanagawa-lotus-lotusWhite1);
+  --popover-foreground: var(--color-kanagawa-lotus-lotusInk2);
+  --primary: var(--color-kanagawa-lotus-lotusBlue4);
+  --primary-foreground: var(--color-kanagawa-lotus-lotusWhite3);
+  --secondary: var(--color-kanagawa-lotus-lotusWhite1);
+  --secondary-foreground: var(--color-kanagawa-lotus-lotusInk1);
+  --muted: var(--color-kanagawa-lotus-lotusWhite1);
+  --muted-foreground: var(--color-kanagawa-lotus-lotusInk2);
+  --accent: var(--color-kanagawa-lotus-lotusWhite0);
+  --accent-foreground: var(--color-kanagawa-lotus-lotusInk1);
+  --destructive: var(--color-kanagawa-lotus-lotusRed);
+  --border: var(--color-kanagawa-lotus-lotusWhite0);
+  --input: var(--color-kanagawa-lotus-lotusWhite0);
+  --ring: var(--color-kanagawa-lotus-lotusBlue4);
+  --chart-1: var(--color-kanagawa-lotus-lotusBlue4);
+  --chart-2: var(--color-kanagawa-lotus-lotusGreen);
+  --chart-3: var(--color-kanagawa-lotus-lotusYellow);
+  --chart-4: var(--color-kanagawa-lotus-lotusRed);
+  --chart-5: var(--color-kanagawa-lotus-lotusViolet2);
+  --sidebar: var(--color-kanagawa-lotus-lotusWhite2);
+  --sidebar-foreground: var(--color-kanagawa-lotus-lotusInk1);
+  --sidebar-primary: var(--color-kanagawa-lotus-lotusBlue4);
+  --sidebar-primary-foreground: var(--color-kanagawa-lotus-lotusWhite3);
+  --sidebar-accent: var(--color-kanagawa-lotus-lotusWhite1);
+  --sidebar-accent-foreground: var(--color-kanagawa-lotus-lotusInk1);
+  --sidebar-border: var(--color-kanagawa-lotus-lotusWhite0);
+  --sidebar-ring: var(--color-kanagawa-lotus-lotusBlue4);
+
+  /* Semantic Colors */
+  --color-danger: var(--color-kanagawa-lotus-lotusRed);
+  --color-warning: var(--color-kanagawa-lotus-lotusOrange);
+  --color-success: var(--color-kanagawa-lotus-lotusGreen2);
+  --color-info: var(--color-kanagawa-lotus-lotusBlue1);
+  --color-surface: var(--color-kanagawa-lotus-lotusWhite0);
+
+  /* Enhanced priority backgrounds for Kanagawa */
+  --priority-bg-opacity: 0.15;
+  --priority-bg-hover-opacity: 0.25;
+}

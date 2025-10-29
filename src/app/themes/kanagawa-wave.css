@@ -1,0 +1,47 @@
+@import './palettes/kanagawa.css';
+
+/* Theme: Kanagawa Wave (Dark) */
+.theme-kanagawa-wave {
+  --background: var(--color-kanagawa-wave-sumiInk0);
+  --foreground: var(--color-kanagawa-wave-fujiWhite);
+  --card: var(--color-kanagawa-wave-sumiInk1);
+  --card-foreground: var(--color-kanagawa-wave-fujiWhite);
+  --popover: var(--color-kanagawa-wave-sumiInk1);
+  --popover-foreground: var(--color-kanagawa-wave-fujiWhite);
+  --primary: var(--color-kanagawa-wave-crystalBlue);
+  --primary-foreground: var(--color-kanagawa-wave-sumiInk0);
+  --secondary: var(--color-kanagawa-wave-sumiInk2);
+  --secondary-foreground: var(--color-kanagawa-wave-fujiWhite);
+  --muted: var(--color-kanagawa-wave-sumiInk2);
+  --muted-foreground: var(--color-kanagawa-wave-oldWhite);
+  --accent: var(--color-kanagawa-wave-sumiInk2);
+  --accent-foreground: var(--color-kanagawa-wave-fujiWhite);
+  --destructive: var(--color-kanagawa-wave-peachRed);
+  --border: var(--color-kanagawa-wave-sumiInk3);
+  --input: var(--color-kanagawa-wave-sumiInk3);
+  --ring: var(--color-kanagawa-wave-crystalBlue);
+  --chart-1: var(--color-kanagawa-wave-crystalBlue);
+  --chart-2: var(--color-kanagawa-wave-springGreen);
+  --chart-3: var(--color-kanagawa-wave-carpYellow);
+  --chart-4: var(--color-kanagawa-wave-waveRed);
+  --chart-5: var(--color-kanagawa-wave-springViolet1);
+  --sidebar: var(--color-kanagawa-wave-sumiInk1);
+  --sidebar-foreground: var(--color-kanagawa-wave-fujiWhite);
+  --sidebar-primary: var(--color-kanagawa-wave-crystalBlue);
+  --sidebar-primary-foreground: var(--color-kanagawa-wave-sumiInk0);
+  --sidebar-accent: var(--color-kanagawa-wave-sumiInk2);
+  --sidebar-accent-foreground: var(--color-kanagawa-wave-fujiWhite);
+  --sidebar-border: var(--color-kanagawa-wave-sumiInk3);
+  --sidebar-ring: var(--color-kanagawa-wave-crystalBlue);
+
+  /* Semantic Colors */
+  --color-danger: var(--color-kanagawa-wave-peachRed);
+  --color-warning: var(--color-kanagawa-wave-carpYellow);
+  --color-success: var(--color-kanagawa-wave-springGreen);
+  --color-info: var(--color-kanagawa-wave-crystalBlue);
+  --color-surface: var(--color-kanagawa-wave-sumiInk2);
+
+  /* Enhanced priority backgrounds for Kanagawa */
+  --priority-bg-opacity: 0.15;
+  --priority-bg-hover-opacity: 0.25;
+}

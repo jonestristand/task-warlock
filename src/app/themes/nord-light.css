@@ -1,0 +1,47 @@
+@import './palettes/nord.css';
+
+/* Theme: Nord Light */
+.theme-nord-light {
+  --background: var(--color-nord-nord6);
+  --foreground: var(--color-nord-nord0);
+  --card: var(--color-nord-nord5);
+  --card-foreground: var(--color-nord-nord0);
+  --popover: var(--color-nord-nord5);
+  --popover-foreground: var(--color-nord-nord0);
+  --primary: var(--color-nord-nord10);
+  --primary-foreground: var(--color-nord-nord6);
+  --secondary: var(--color-nord-nord4);
+  --secondary-foreground: var(--color-nord-nord0);
+  --muted: var(--color-nord-nord4);
+  --muted-foreground: var(--color-nord-nord1);
+  --accent: var(--color-nord-nord3);
+  --accent-foreground: var(--color-nord-nord6);
+  --destructive: var(--color-nord-nord11);
+  --border: var(--color-nord-nord4);
+  --input: var(--color-nord-nord4);
+  --ring: var(--color-nord-nord10);
+  --chart-1: var(--color-nord-nord10);
+  --chart-2: var(--color-nord-nord14);
+  --chart-3: var(--color-nord-nord13);
+  --chart-4: var(--color-nord-nord11);
+  --chart-5: var(--color-nord-nord15);
+  --sidebar: var(--color-nord-nord5);
+  --sidebar-foreground: var(--color-nord-nord0);
+  --sidebar-primary: var(--color-nord-nord10);
+  --sidebar-primary-foreground: var(--color-nord-nord6);
+  --sidebar-accent: var(--color-nord-nord4);
+  --sidebar-accent-foreground: var(--color-nord-nord0);
+  --sidebar-border: var(--color-nord-nord4);
+  --sidebar-ring: var(--color-nord-nord10);
+
+  /* Semantic Colors */
+  --color-danger: var(--color-nord-nord11);
+  --color-warning: var(--color-nord-nord12);
+  --color-success: var(--color-nord-nord14);
+  --color-info: var(--color-nord-nord9);
+  --color-surface: var(--color-nord-nord4);
+
+  /* Default priority background opacity */
+  --priority-bg-opacity: 0.1;
+  --priority-bg-hover-opacity: 0.2;
+}

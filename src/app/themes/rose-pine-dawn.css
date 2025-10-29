@@ -1,0 +1,47 @@
+@import './palettes/rose-pine.css';
+
+/* Theme: Rose Pine Dawn */
+.theme-rose-pine-dawn {
+  --background: var(--color-rosepine-dawn-base);
+  --foreground: var(--color-rosepine-dawn-text);
+  --card: var(--color-rosepine-dawn-surface);
+  --card-foreground: var(--color-rosepine-dawn-text);
+  --popover: var(--color-rosepine-dawn-surface);
+  --popover-foreground: var(--color-rosepine-dawn-text);
+  --primary: var(--color-rosepine-dawn-iris);
+  --primary-foreground: var(--color-rosepine-dawn-base);
+  --secondary: var(--color-rosepine-dawn-overlay);
+  --secondary-foreground: var(--color-rosepine-dawn-text);
+  --muted: var(--color-rosepine-dawn-overlay);
+  --muted-foreground: var(--color-rosepine-dawn-subtle);
+  --accent: var(--color-rosepine-dawn-overlay);
+  --accent-foreground: var(--color-rosepine-dawn-text);
+  --destructive: var(--color-rosepine-dawn-love);
+  --border: var(--color-rosepine-dawn-overlay);
+  --input: var(--color-rosepine-dawn-overlay);
+  --ring: var(--color-rosepine-dawn-iris);
+  --chart-1: var(--color-rosepine-dawn-iris);
+  --chart-2: var(--color-rosepine-dawn-foam);
+  --chart-3: var(--color-rosepine-dawn-gold);
+  --chart-4: var(--color-rosepine-dawn-love);
+  --chart-5: var(--color-rosepine-dawn-rose);
+  --sidebar: var(--color-rosepine-dawn-surface);
+  --sidebar-foreground: var(--color-rosepine-dawn-text);
+  --sidebar-primary: var(--color-rosepine-dawn-iris);
+  --sidebar-primary-foreground: var(--color-rosepine-dawn-base);
+  --sidebar-accent: var(--color-rosepine-dawn-overlay);
+  --sidebar-accent-foreground: var(--color-rosepine-dawn-text);
+  --sidebar-border: var(--color-rosepine-dawn-overlay);
+  --sidebar-ring: var(--color-rosepine-dawn-iris);
+
+  /* Semantic Colors */
+  --color-danger: var(--color-rosepine-dawn-love);
+  --color-warning: var(--color-rosepine-dawn-gold);
+  --color-success: var(--color-rosepine-dawn-foam);
+  --color-info: var(--color-rosepine-dawn-iris);
+  --color-surface: var(--color-rosepine-dawn-overlay);
+
+  /* Default priority background opacity */
+  --priority-bg-opacity: 0.1;
+  --priority-bg-hover-opacity: 0.2;
+}

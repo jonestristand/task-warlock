@@ -1,0 +1,47 @@
+@import './palettes/one-dark.css';
+
+/* Theme: One Dark */
+.theme-one-dark {
+  --background: var(--color-onedark-background);
+  --foreground: var(--color-onedark-foreground);
+  --card: var(--color-onedark-surface0);
+  --card-foreground: var(--color-onedark-foreground);
+  --popover: var(--color-onedark-surface0);
+  --popover-foreground: var(--color-onedark-foreground);
+  --primary: var(--color-onedark-blue);
+  --primary-foreground: var(--color-onedark-background);
+  --secondary: var(--color-onedark-surface1);
+  --secondary-foreground: var(--color-onedark-foreground);
+  --muted: var(--color-onedark-surface1);
+  --muted-foreground: var(--color-onedark-comment);
+  --accent: var(--color-onedark-surface1);
+  --accent-foreground: var(--color-onedark-foreground);
+  --destructive: var(--color-onedark-red);
+  --border: var(--color-onedark-surface2);
+  --input: var(--color-onedark-surface2);
+  --ring: var(--color-onedark-blue);
+  --chart-1: var(--color-onedark-blue);
+  --chart-2: var(--color-onedark-green);
+  --chart-3: var(--color-onedark-yellow);
+  --chart-4: var(--color-onedark-red);
+  --chart-5: var(--color-onedark-orange);
+  --sidebar: var(--color-onedark-surface0);
+  --sidebar-foreground: var(--color-onedark-foreground);
+  --sidebar-primary: var(--color-onedark-blue);
+  --sidebar-primary-foreground: var(--color-onedark-background);
+  --sidebar-accent: var(--color-onedark-surface1);
+  --sidebar-accent-foreground: var(--color-onedark-foreground);
+  --sidebar-border: var(--color-onedark-surface2);
+  --sidebar-ring: var(--color-onedark-blue);
+
+  /* Semantic Colors */
+  --color-danger: var(--color-onedark-red);
+  --color-warning: var(--color-onedark-yellow);
+  --color-success: var(--color-onedark-green);
+  --color-info: var(--color-onedark-cyan);
+  --color-surface: var(--color-onedark-surface1);
+
+  /* Default priority background opacity */
+  --priority-bg-opacity: 0.1;
+  --priority-bg-hover-opacity: 0.2;
+}

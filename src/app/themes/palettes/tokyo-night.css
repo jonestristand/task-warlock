@@ -1,0 +1,18 @@
+/* Tokyo Night Color Palette */
+@theme {
+  --color-tokyo-background: rgb(26, 27, 38);
+  --color-tokyo-foreground: rgb(169, 177, 214);
+  --color-tokyo-comment: rgb(86, 95, 137);
+  --color-tokyo-selection: rgb(54, 59, 90);
+  --color-tokyo-cyan: rgb(125, 207, 255);
+  --color-tokyo-green: rgb(158, 206, 106);
+  --color-tokyo-orange: rgb(255, 158, 100);
+  --color-tokyo-pink: rgb(187, 154, 247);
+  --color-tokyo-purple: rgb(187, 154, 247);
+  --color-tokyo-red: rgb(247, 118, 142);
+  --color-tokyo-yellow: rgb(224, 175, 104);
+  --color-tokyo-blue: rgb(122, 162, 247);
+  --color-tokyo-surface0: rgb(30, 32, 48);
+  --color-tokyo-surface1: rgb(40, 43, 63);
+  --color-tokyo-surface2: rgb(54, 59, 90);
+}
