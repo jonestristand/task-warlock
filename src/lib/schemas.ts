@@ -22,6 +22,7 @@ export const TaskSchema = z.object({
   priority: z.enum(['H', 'M', 'L']).optional(),
   project: z.string().optional(),
   tags: z.array(z.string()).optional(),
+  depends: z.array(z.string()).optional(),
   due: z.string().transform(parseTaskWarriorDate).optional(),
   end: z.string().transform(parseTaskWarriorDate).optional(),
   entry: z.string().transform(parseTaskWarriorDate),

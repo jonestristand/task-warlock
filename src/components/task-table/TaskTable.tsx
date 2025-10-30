@@ -13,6 +13,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
+import TaskCard from './TaskCard';
 import { TaskTableRow } from './TaskTableRow';
 
 interface TaskTableProps {
@@ -43,38 +44,59 @@ export default function TaskTable({
   const maxUrgency = tasks ? Math.max(...tasks.map(task => task.urgency || 0)) : 0;
 
   return (
-    <div className="rounded-md border">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-10"></TableHead>
-            <TableHead>Description</TableHead>
-            <TableHead>Project</TableHead>
-            <TableHead className="hidden sm:table-cell">Priority</TableHead>
-            <TableHead>{showCompleted ? 'Completed' : 'Due'}</TableHead>
-            <TableHead>Urgency</TableHead>
-            <TableHead>Tags</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {isLoading
-            ? [...Array(5)].map((_, i) => (
-                <TableRow key={i}>
-                  <TableCell colSpan={7}>
-                    <Skeleton className="h-8 w-full" />
-                  </TableCell>
-                </TableRow>
-              ))
-            : tasks?.map(task => (
-                <TaskTableRow
-                  key={task.uuid}
-                  task={task}
-                  maxUrgency={maxUrgency}
-                  onSave={handleSaveTask}
-                />
-              ))}
-        </TableBody>
-      </Table>
-    </div>
+    <>
+      {/* Mobile/Tablet: Card Layout (< 1024px) */}
+      <div className="lg:hidden rounded-md border">
+        {isLoading
+          ? [...Array(5)].map((_, i) => (
+              <div key={i} className="border-b p-3">
+                <Skeleton className="h-12 w-full" />
+              </div>
+            ))
+          : tasks?.map(task => (
+              <TaskCard
+                key={task.uuid}
+                task={task}
+                maxUrgency={maxUrgency}
+                onSave={handleSaveTask}
+              />
+            ))}
+      </div>
+
+      {/* Desktop: Table Layout (>= 1024px) */}
+      <div className="hidden lg:block rounded-md border">
+        <Table className="w-full">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-10 px-4"></TableHead>
+              <TableHead className="px-4">Description</TableHead>
+              <TableHead className="px-4">Project</TableHead>
+              <TableHead className="px-4">Priority</TableHead>
+              <TableHead className="px-4">{showCompleted ? 'Completed' : 'Due'}</TableHead>
+              <TableHead className="px-4">Urgency</TableHead>
+              <TableHead className="px-4">Tags</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {isLoading
+              ? [...Array(5)].map((_, i) => (
+                  <TableRow key={i}>
+                    <TableCell colSpan={7}>
+                      <Skeleton className="h-8 w-full" />
+                    </TableCell>
+                  </TableRow>
+                ))
+              : tasks?.map(task => (
+                  <TaskTableRow
+                    key={task.uuid}
+                    task={task}
+                    maxUrgency={maxUrgency}
+                    onSave={handleSaveTask}
+                  />
+                ))}
+          </TableBody>
+        </Table>
+      </div>
+    </>
   );
 }

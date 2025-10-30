@@ -36,8 +36,10 @@ export default async function Home() {
 
         <HydrationBoundary state={dehydrate(queryClient)}>
           <div>
-            <div className="flex items-center justify-between">
-              <h1 className="text-3xl font-bold tracking-tight">🧙‍♂️ TaskWarlock</h1>
+            <div className="flex flex-col gap-6 sm:gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <h1 className="text-3xl font-bold tracking-tight border-b pb-4 sm:border-b-0 sm:pb-0">
+                🧙‍♂️ TaskWarlock
+              </h1>
               <div className="flex items-center gap-2">
                 <ThemeSelector />
                 <Link href="/settings">

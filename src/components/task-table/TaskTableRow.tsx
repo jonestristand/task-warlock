@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 
-import { Check, X } from 'lucide-react';
+import { Check, Folder, Lock, Tag, X } from 'lucide-react';
 import DateTimePicker from 'react-datetime-picker';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import { Priority, Task, TaskUpdate } from '@/lib/schemas';
-import { useTagsQuery } from '@/lib/task-queries';
+import { useTagsQuery, useTasksQuery } from '@/lib/task-queries';
+import { getBlockingTasks, isTaskBlocked } from '@/lib/utils';
 
 import TagSelector from '@/components/selectors/TagSelector';
 import CompleteTaskButton from '@/components/task-actions/CompleteTaskButton';
@@ -73,9 +74,12 @@ export interface TaskUpdateFormValues {
 export function TaskTableRow({ task, maxUrgency, onSave }: TaskTableRowProps) {
   const [isEditing, setIsEditing] = useState(false);
   const { data: tags } = useTagsQuery();
+  const { data: allTasks } = useTasksQuery();
 
   const urgencyFontWeight = getUrgencyFontWeight(task.urgency, maxUrgency);
   const isCompleted = Boolean(task.end);
+  const blocked = isTaskBlocked(task, allTasks || []);
+  const blockingTasks = blocked ? getBlockingTasks(task, allTasks || [])  : [];
 
   const { register, handleSubmit, reset, control } = useForm<TaskUpdateFormValues>({
     defaultValues: {
@@ -115,8 +119,15 @@ export function TaskTableRow({ task, maxUrgency, onSave }: TaskTableRowProps) {
     }
   };
 
-  const formatDate = (date?: Date) => {
+  const formatDate = (date?: Date, mobileOnly = false) => {
     if (!date) return '';
+    if (mobileOnly) {
+      return date.toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      });
+    }
     return date.toLocaleString(undefined, {
       year: 'numeric',
       month: '2-digit',
@@ -126,13 +137,37 @@ export function TaskTableRow({ task, maxUrgency, onSave }: TaskTableRowProps) {
     });
   };
 
+  const formatRelativeTime = (date?: Date) => {
+    if (!date) return '';
+
+    const now = new Date();
+    const diff = new Date(date).getTime() - now.getTime();
+    const isPast = diff < 0;
+    const absDiff = Math.abs(diff);
+
+    const minutes = Math.floor(absDiff / (1000 * 60));
+    const hours = Math.floor(absDiff / (1000 * 60 * 60));
+    const days = Math.floor(absDiff / (1000 * 60 * 60 * 24));
+
+    let result = '';
+    if (days > 0) {
+      result = `${days}d`;
+    } else if (hours > 0) {
+      result = `${hours}h`;
+    } else {
+      result = `${minutes}m`;
+    }
+
+    return isPast ? `-${result}` : result;
+  };
+
   return (
     <TableRow
       className={`${task.priority && task.priority in priorityStyles ? priorityStyles[task.priority as keyof typeof priorityStyles].background : 'hover:bg-(--color-surface)'} ${urgencyFontWeight} ${!isCompleted && !isEditing ? 'cursor-pointer' : ''}`}
       onClick={handleRowClick}
     >
       {/* Complete/Restore Button OR Save/Cancel */}
-      <TableCell onClick={e => e.stopPropagation()}>
+      <TableCell className="px-2 md:px-4" onClick={e => e.stopPropagation()}>
         {isEditing ? (
           <div className="flex gap-1">
             <button
@@ -157,22 +192,33 @@ export function TaskTableRow({ task, maxUrgency, onSave }: TaskTableRowProps) {
             ) : (
               <CompleteTaskButton taskUuid={task.uuid} />
             )}
-            <div className="w-8" />
+            <div className="w-8 hidden md:block" />
           </div>
         )}
       </TableCell>
 
       {/* Description */}
-      <TableCell>
+      <TableCell className="px-2 md:px-4">
         {isEditing ? (
           <Input {...register('description')} className="h-8" onClick={e => e.stopPropagation()} />
         ) : (
-          task.description
+          <div className="flex items-center gap-2">
+            {blocked && (
+              <div
+                className="flex items-center gap-1 text-[var(--color-warning)]"
+                title={`Blocked by: ${blockingTasks.map(t => t.description).join(', ')}`}
+              >
+                <Lock className="w-3 h-3 flex-shrink-0" />
+                <span className="text-xs hidden lg:inline">Blocked</span>
+              </div>
+            )}
+            <div className="truncate max-w-[150px] md:max-w-none">{task.description}</div>
+          </div>
         )}
       </TableCell>
 
       {/* Project */}
-      <TableCell>
+      <TableCell className="px-2 md:px-4">
         {isEditing ? (
           <Input
             {...register('project')}
@@ -181,13 +227,25 @@ export function TaskTableRow({ task, maxUrgency, onSave }: TaskTableRowProps) {
             onClick={e => e.stopPropagation()}
           />
         ) : (
-          task.project || ''
+          <>
+            {/* Mobile: Icon + 2 Letters */}
+            <div className="md:hidden flex items-center gap-1" title={task.project || 'No project'}>
+              {task.project && (
+                <>
+                  <Folder className="w-3 h-3 shrink-0" />
+                  <span className="text-xs">{task.project.slice(0, 2)}</span>
+                </>
+              )}
+            </div>
+            {/* Tablet/Desktop: Full text */}
+            <span className="hidden md:inline">{task.project || ''}</span>
+          </>
         )}
       </TableCell>
 
       {/* Priority */}
       <TableCell
-        className={`hidden sm:table-cell ${task.priority && task.priority in priorityStyles ? priorityStyles[task.priority as keyof typeof priorityStyles].text : ''}`}
+        className={`hidden lg:table-cell px-2 md:px-4 ${task.priority && task.priority in priorityStyles ? priorityStyles[task.priority as keyof typeof priorityStyles].text : ''}`}
       >
         {isEditing ? (
           <Controller
@@ -213,7 +271,7 @@ export function TaskTableRow({ task, maxUrgency, onSave }: TaskTableRowProps) {
       </TableCell>
 
       {/* Due Date / Completion Date */}
-      <TableCell>
+      <TableCell className="px-2 md:px-4">
         {isEditing ? (
           <div className="flex items-center gap-2">
             <Controller
@@ -246,18 +304,34 @@ export function TaskTableRow({ task, maxUrgency, onSave }: TaskTableRowProps) {
               )}
             />
           </div>
-        ) : isCompleted ? (
-          formatDate(task.end) || ''
         ) : (
-          formatDate(task.due) || ''
+          <>
+            <span className="xl:hidden text-xs" title={isCompleted ? formatDate(task.end) : formatDate(task.due)}>
+              {isCompleted ? formatDate(task.end, true) : formatRelativeTime(task.due)}
+            </span>
+            <span className="hidden xl:inline">
+              {isCompleted ? formatDate(task.end) : formatDate(task.due)}
+            </span>
+          </>
         )}
       </TableCell>
 
       {/* Urgency (read-only) */}
-      <TableCell>{isEditing ? '-' : task.urgency?.toFixed(1) || '0.0'}</TableCell>
+      <TableCell className="px-2 md:px-4">
+        {isEditing ? (
+          '-'
+        ) : (
+          <>
+            {/* Mobile: Compact number */}
+            <span className="md:hidden text-xs">{task.urgency?.toFixed(1) || '0.0'}</span>
+            {/* Tablet/Desktop: Full number */}
+            <span className="hidden md:inline">{task.urgency?.toFixed(1) || '0.0'}</span>
+          </>
+        )}
+      </TableCell>
 
       {/* Tags */}
-      <TableCell>
+      <TableCell className="px-2 md:px-4">
         {isEditing ? (
           <div className="min-w-[200px]" onClick={e => e.stopPropagation()}>
             <Controller
@@ -274,7 +348,19 @@ export function TaskTableRow({ task, maxUrgency, onSave }: TaskTableRowProps) {
             />
           </div>
         ) : (
-          task.tags?.join(', ') || ''
+          <>
+            {/* Mobile: Icon + Count */}
+            <div className="md:hidden flex items-center gap-1" title={task.tags?.join(', ') || 'No tags'}>
+              {task.tags && task.tags.length > 0 && (
+                <>
+                  <Tag className="w-3 h-3 shrink-0" />
+                  <span className="text-xs">{task.tags.length}</span>
+                </>
+              )}
+            </div>
+            {/* Tablet/Desktop: Full tag list */}
+            <span className="hidden md:inline">{task.tags?.join(', ') || ''}</span>
+          </>
         )}
       </TableCell>
     </TableRow>

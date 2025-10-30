@@ -12,6 +12,7 @@ import TaskTable from '@/components/task-table/TaskTable';
 import { Button } from '@/components/ui/button';
 
 import ContextFilter from '../filters/ContextFilter';
+import FilterSheet from '../filters/FilterSheet';
 import ProjectFilter from '../filters/ProjectFilter';
 import TagFilter from '../filters/TagFilter';
 
@@ -94,7 +95,7 @@ export default function TaskDashboard() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-3">
         <h2 className="text-xl font-semibold">{showCompleted ? 'Completed Tasks' : 'Tasks'}</h2>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
@@ -104,39 +105,62 @@ export default function TaskDashboard() {
               onClick={handleRefresh}
               disabled={isRefreshing}
               className="flex items-center gap-2"
+              title="Refresh"
             >
               <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
-              Refresh
+              <span className="hidden sm:inline">Refresh</span>
             </Button>
             <SyncButton />
           </div>
-          <div className="h-8 w-px bg-border" />
-          <div className="flex items-center gap-4">
-            <Button
-              variant={showCompleted ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => {
-                setShowCompleted(!showCompleted);
-                setSelectedProject(null); // Reset project filter when switching
-                setSelectedTags([]); // Reset tag filter when switching
-              }}
-              className="flex items-center gap-2"
-            >
-              {showCompleted ? 'Show Pending' : 'Show Completed'}
-            </Button>
-            {/*<ContextFilter contexts={[]} currentContext={null} />*/}
-            <ProjectFilter
+
+          {/* Mobile: Filter Sheet */}
+          <div className="lg:hidden">
+            <FilterSheet
               projects={projects || []}
+              tags={tags || []}
               selectedProject={selectedProject}
+              selectedTags={selectedTags}
+              showCompleted={showCompleted}
               onProjectChange={setSelectedProject}
+              onTagsChange={setSelectedTags}
+              onShowCompletedChange={(show) => {
+                setShowCompleted(show);
+                setSelectedProject(null);
+                setSelectedTags([]);
+              }}
             />
-            <TagFilter tags={tags || []} selectedTags={selectedTags} onTagsChange={setSelectedTags} />
+          </div>
+
+          {/* Desktop: Inline Filters */}
+          <div className="hidden lg:flex lg:items-center lg:gap-3">
+            <div className="h-8 w-px bg-border" />
+            <div className="flex items-center gap-4">
+              <Button
+                variant={showCompleted ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => {
+                  setShowCompleted(!showCompleted);
+                  setSelectedProject(null);
+                  setSelectedTags([]);
+                }}
+                className="flex items-center gap-2"
+              >
+                {showCompleted ? 'Show Pending' : 'Show Completed'}
+              </Button>
+              {/*<ContextFilter contexts={[]} currentContext={null} />*/}
+              <ProjectFilter
+                projects={projects || []}
+                selectedProject={selectedProject}
+                onProjectChange={setSelectedProject}
+              />
+              <TagFilter tags={tags || []} selectedTags={selectedTags} onTagsChange={setSelectedTags} />
+            </div>
           </div>
         </div>
       </div>
 
-      <TaskTable 
-        tasks={filteredTasks} 
+      <TaskTable
+        tasks={filteredTasks}
         showCompleted={showCompleted}
         isLoading={isPending}
       />

@@ -112,7 +112,7 @@ RUN touch /var/log/cron.log && chmod 666 /var/log/cron.log
 
 RUN echo '#!/bin/bash' > /start.sh \
     && echo 'echo "Starting cron daemon..."' >> /start.sh \
-    && echo 'crond -L /var/log/cron.log -l 8' >> /start.sh \
+    && echo 'crond -L /var/log/cron.log' >> /start.sh \
     && echo 'echo "Starting Next.js app..."' >> /start.sh \
     && echo 'su -s /bin/bash nextjs -c "cd /app && exec node server.js"' >> /start.sh \
     && chmod +x /start.sh

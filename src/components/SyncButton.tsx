@@ -20,9 +20,10 @@ export default function SyncButton() {
       onClick={handleSync}
       disabled={syncMutation.isPending}
       className="flex items-center gap-2"
+      title="Sync & Refresh"
     >
       <CloudUpload className={`w-4 h-4 ${syncMutation.isPending ? 'animate-pulse' : ''}`} />
-      Sync & Refresh
+      <span className="hidden sm:inline">Sync & Refresh</span>
     </Button>
   );
 }
