@@ -60,7 +60,7 @@ export default function FilterSheet({
           )}
         </Button>
       </SheetTrigger>
-      <SheetContent side="bottom" className="px-6 pb-12">
+      <SheetContent side="bottom" className="px-6 pb-12comm">
         <SheetHeader>
           <SheetTitle>Filters</SheetTitle>
           <SheetDescription>

@@ -57,12 +57,6 @@ const getUrgencyFontWeight = (urgency: number, maxUrgency: number): string => {
   return urgencyFontWeights.find(item => ratio >= item.threshold)?.weight || 'font-thin';
 };
 
-interface TaskTableRowProps {
-  task: Task;
-  maxUrgency: number;
-  onSave: (taskUuid: string, updates: TaskUpdate) => Promise<void>;
-}
-
 export interface TaskUpdateFormValues {
   description: string;
   project: string;
@@ -71,7 +65,14 @@ export interface TaskUpdateFormValues {
   tags: string[];
 }
 
-export function TaskTableRow({ task, maxUrgency, onSave }: TaskTableRowProps) {
+interface EditableTableRowProps {
+  task: Task;
+  maxUrgency: number;
+  onSave: (taskUuid: string, updates: TaskUpdate) => Promise<void>;
+  showCompleted?: boolean;
+}
+
+export function EditableTableRow({ task, maxUrgency, onSave, showCompleted = false }: EditableTableRowProps) {
   const [isEditing, setIsEditing] = useState(false);
   const { data: tags } = useTagsQuery();
   const { data: allTasks } = useTasksQuery();
@@ -79,7 +80,7 @@ export function TaskTableRow({ task, maxUrgency, onSave }: TaskTableRowProps) {
   const urgencyFontWeight = getUrgencyFontWeight(task.urgency, maxUrgency);
   const isCompleted = Boolean(task.end);
   const blocked = isTaskBlocked(task, allTasks || []);
-  const blockingTasks = blocked ? getBlockingTasks(task, allTasks || [])  : [];
+  const blockingTasks = blocked ? getBlockingTasks(task, allTasks || []) : [];
 
   const { register, handleSubmit, reset, control } = useForm<TaskUpdateFormValues>({
     defaultValues: {
@@ -95,7 +96,7 @@ export function TaskTableRow({ task, maxUrgency, onSave }: TaskTableRowProps) {
     await onSave(task.uuid, {
       description: data.description,
       project: data.project,
-      priority: data.priority === 'none' ? '' : data.priority, // Convert 'none' to empty string for clearing
+      priority: data.priority === 'none' ? '' : data.priority,
       due: data.due,
       tags: data.tags,
     });
@@ -192,7 +193,6 @@ export function TaskTableRow({ task, maxUrgency, onSave }: TaskTableRowProps) {
             ) : (
               <CompleteTaskButton taskUuid={task.uuid} />
             )}
-            <div className="w-8 hidden md:block" />
           </div>
         )}
       </TableCell>
@@ -212,7 +212,7 @@ export function TaskTableRow({ task, maxUrgency, onSave }: TaskTableRowProps) {
                 <span className="text-xs hidden lg:inline">Blocked</span>
               </div>
             )}
-            <div className="truncate max-w-[150px] md:max-w-none">{task.description}</div>
+            <div className="font-medium">{task.description}</div>
           </div>
         )}
       </TableCell>
@@ -227,25 +227,13 @@ export function TaskTableRow({ task, maxUrgency, onSave }: TaskTableRowProps) {
             onClick={e => e.stopPropagation()}
           />
         ) : (
-          <>
-            {/* Mobile: Icon + 2 Letters */}
-            <div className="md:hidden flex items-center gap-1" title={task.project || 'No project'}>
-              {task.project && (
-                <>
-                  <Folder className="w-3 h-3 shrink-0" />
-                  <span className="text-xs">{task.project.slice(0, 2)}</span>
-                </>
-              )}
-            </div>
-            {/* Tablet/Desktop: Full text */}
-            <span className="hidden md:inline">{task.project || ''}</span>
-          </>
+          <div>{task.project || ''}</div>
         )}
       </TableCell>
 
       {/* Priority */}
       <TableCell
-        className={`hidden lg:table-cell px-2 md:px-4 ${task.priority && task.priority in priorityStyles ? priorityStyles[task.priority as keyof typeof priorityStyles].text : ''}`}
+        className={`px-2 md:px-4 ${task.priority && task.priority in priorityStyles ? priorityStyles[task.priority as keyof typeof priorityStyles].text : ''}`}
       >
         {isEditing ? (
           <Controller
@@ -293,7 +281,7 @@ export function TaskTableRow({ task, maxUrgency, onSave }: TaskTableRowProps) {
                     type="button"
                     onClick={e => {
                       e.stopPropagation();
-                      reset({ due: null });
+                      field.onChange(null);
                     }}
                     className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 rounded border transition-colors border-(--color-danger) bg-[rgba(var(--color-danger)/0.2)] hover:bg-[rgba(var(--color-danger)/0.4)]"
                     title="Clear due date"
@@ -305,29 +293,15 @@ export function TaskTableRow({ task, maxUrgency, onSave }: TaskTableRowProps) {
             />
           </div>
         ) : (
-          <>
-            <span className="xl:hidden text-xs" title={isCompleted ? formatDate(task.end) : formatDate(task.due)}>
-              {isCompleted ? formatDate(task.end, true) : formatRelativeTime(task.due)}
-            </span>
-            <span className="hidden xl:inline">
-              {isCompleted ? formatDate(task.end) : formatDate(task.due)}
-            </span>
-          </>
+          <div>
+            {isCompleted ? formatDate(task.end) : formatDate(task.due)}
+          </div>
         )}
       </TableCell>
 
       {/* Urgency (read-only) */}
       <TableCell className="px-2 md:px-4">
-        {isEditing ? (
-          '-'
-        ) : (
-          <>
-            {/* Mobile: Compact number */}
-            <span className="md:hidden text-xs">{task.urgency?.toFixed(1) || '0.0'}</span>
-            {/* Tablet/Desktop: Full number */}
-            <span className="hidden md:inline">{task.urgency?.toFixed(1) || '0.0'}</span>
-          </>
-        )}
+        <div>{task.urgency?.toFixed(1) || '0.0'}</div>
       </TableCell>
 
       {/* Tags */}
@@ -348,19 +322,7 @@ export function TaskTableRow({ task, maxUrgency, onSave }: TaskTableRowProps) {
             />
           </div>
         ) : (
-          <>
-            {/* Mobile: Icon + Count */}
-            <div className="md:hidden flex items-center gap-1" title={task.tags?.join(', ') || 'No tags'}>
-              {task.tags && task.tags.length > 0 && (
-                <>
-                  <Tag className="w-3 h-3 shrink-0" />
-                  <span className="text-xs">{task.tags.length}</span>
-                </>
-              )}
-            </div>
-            {/* Tablet/Desktop: Full tag list */}
-            <span className="hidden md:inline">{task.tags?.join(', ') || ''}</span>
-          </>
+          <div>{task.tags?.join(', ') || ''}</div>
         )}
       </TableCell>
     </TableRow>

@@ -50,12 +50,14 @@ export interface AppSettings {
   theme: Theme; // Default theme for new sessions (current theme stored in localStorage)
   urgencyAgeMax: number;
   urgencyCoefficients: UrgencyCoefficients;
+  defaultPageSize: number; // Default items per page in task table
 }
 
 const DEFAULT_SETTINGS: AppSettings = {
   autoSync: false,
   theme: 'catppuccin-mocha',
   urgencyAgeMax: 365,
+  defaultPageSize: 20,
   urgencyCoefficients: {
     next: 15.0,
     due: 12.0,

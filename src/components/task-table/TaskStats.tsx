@@ -1,6 +1,7 @@
 'use client';
 
 import { useTasksQuery } from '@/lib/task-queries';
+
 import { Skeleton } from '@/components/ui/skeleton';
 
 export function TaskStats() {
@@ -42,6 +43,11 @@ export function TaskStats() {
 
   return (
     <div className="flex flex-wrap gap-3 mt-3">
+      {stats.overdue > 0 && (
+        <span className="inline-flex items-center rounded-full bg-(--color-danger)/10 px-3 py-1 text-sm font-medium text-(--color-danger)">
+          {stats.overdue} overdue
+        </span>
+      )}
       <span className="inline-flex items-center rounded-full bg-(--color-info)/10 px-3 py-1 text-sm font-medium text-(--color-info)">
         {stats.total} pending
       </span>
@@ -58,11 +64,6 @@ export function TaskStats() {
       {stats.low > 0 && (
         <span className="inline-flex items-center rounded-full bg-(--color-success)/10 px-3 py-1 text-sm font-medium text-(--color-success)">
           {stats.low} low
-        </span>
-      )}
-      {stats.overdue > 0 && (
-        <span className="inline-flex items-center rounded-full bg-(--color-danger)/10 px-3 py-1 text-sm font-medium text-(--color-danger)">
-          {stats.overdue} overdue
         </span>
       )}
       {stats.projects > 0 && (

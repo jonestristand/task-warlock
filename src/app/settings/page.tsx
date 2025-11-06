@@ -46,6 +46,7 @@ export default function SettingsPage() {
   const [formData, setFormData] = useState({
     autoSync: settings?.autoSync ?? false,
     theme: settings?.theme ?? 'catppuccin-mocha',
+    defaultPageSize: settings?.defaultPageSize ?? 20,
     urgencyAgeMax: settings?.urgencyAgeMax ?? 365,
     urgencyCoefficients: settings?.urgencyCoefficients ?? {
       next: 15.0,
@@ -65,6 +66,7 @@ export default function SettingsPage() {
       setFormData(prev => ({
         autoSync: settings.autoSync,
         theme: settings.theme,
+        defaultPageSize: settings.defaultPageSize,
         urgencyAgeMax: settings.urgencyAgeMax,
         urgencyCoefficients: settings.urgencyCoefficients,
       }));
@@ -89,6 +91,7 @@ export default function SettingsPage() {
       setFormData({
         autoSync: settings.autoSync,
         theme: settings.theme,
+        defaultPageSize: settings.defaultPageSize,
         urgencyAgeMax: settings.urgencyAgeMax,
         urgencyCoefficients: settings.urgencyCoefficients,
       });
@@ -99,6 +102,7 @@ export default function SettingsPage() {
     settings &&
     (formData.autoSync !== settings.autoSync ||
       formData.theme !== settings.theme ||
+      formData.defaultPageSize !== settings.defaultPageSize ||
       formData.urgencyAgeMax !== settings.urgencyAgeMax ||
       JSON.stringify(formData.urgencyCoefficients) !==
         JSON.stringify(settings.urgencyCoefficients));
@@ -194,6 +198,27 @@ export default function SettingsPage() {
             <p className="text-sm text-muted-foreground">
               Default theme for new sessions. Current theme is saved in your browser. Use the theme
               selector in the header to change it.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="page-size">Default Page Size</Label>
+            <Select 
+              value={formData.defaultPageSize.toString()} 
+              onValueChange={value => setFormData(prev => ({ ...prev, defaultPageSize: parseInt(value) }))}
+            >
+              <SelectTrigger id="page-size" className="max-w-xs">
+                <SelectValue placeholder="Select page size..." />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="10">10 items per page</SelectItem>
+                <SelectItem value="20">20 items per page</SelectItem>
+                <SelectItem value="50">50 items per page</SelectItem>
+                <SelectItem value="100">100 items per page</SelectItem>
+              </SelectContent>
+            </Select>
+            <p className="text-sm text-muted-foreground">
+              Number of tasks to display per page in the task table.
             </p>
           </div>
         </div>

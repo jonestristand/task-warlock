@@ -56,9 +56,9 @@ export async function getTask(uuid: string): Promise<Task | null> {
     if (!stdout.trim()) return null;
 
     const rawTask = JSON.parse(stdout);
-    const validatedTasks = TaskListSchema.parse(rawTask[0]);
+    const validatedTask = TaskSchema.parse(rawTask[0]);
 
-    if (validatedTasks.length > 0) return validatedTasks[0];
+    if (validatedTask) return validatedTask;
     else return null;
   } catch (error) {
     console.error('Error fetching task:', error);
@@ -166,8 +166,6 @@ export async function updateTask(taskUpdate: {
     if (!taskUpdate.original) throw new Error('Original task not provided');
 
     const args: string[] = [taskUpdate.original?.uuid, 'modify'];
-
-    console.log(taskUpdate.updates);
 
     if (taskUpdate.updates.description !== undefined) {
       args.push(`description:${taskUpdate.updates.description}`);
