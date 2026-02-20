@@ -20,11 +20,10 @@ services:
     environment:
       # Optional: Set Node environment
       - NODE_ENV=production
+      # Optional: Set container timezone
+      # - TZ=America/New_York
       
       # Optional: Disable Next.js telemetry
       - NEXT_TELEMETRY_DISABLED=1
     restart: unless-stopped
     
-    # Optional: Set container timezone
-    # environment:
-    #   - TZ=America/New_York
