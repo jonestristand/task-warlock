@@ -21,7 +21,7 @@ RUN apk add --no-cache \
 
 # Install TaskWarrior 3 in builder stage
 RUN mkdir -p /tmp/taskwarrior \
-    && wget -qO- https://github.com/GothenburgBitFactory/taskwarrior/releases/download/v3.4.1/task-3.4.1.tar.gz | tar xz -C /tmp/taskwarrior --strip-components=1 \
+    && wget -qO- https://github.com/GothenburgBitFactory/taskwarrior/releases/download/v3.4.2/task-3.4.2.tar.gz | tar xz -C /tmp/taskwarrior --strip-components=1 \
     && cd /tmp/taskwarrior \
     && cmake -S . -B build -DCMAKE_BUILD_TYPE=Release \
     && cmake --build build \
