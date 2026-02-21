@@ -21,7 +21,7 @@ A modern, beautiful web interface for [TaskWarrior](https://taskwarrior.org/) bu
 ### Prerequisites
 
 - Node.js 22+ or Docker
-- TaskWarrior 3.4.1+ installed locally (for development without Docker)
+- TaskWarrior 3.4.2+ installed locally (for development without Docker)
 
 ### Development
 
@@ -64,7 +64,7 @@ docker run -p 3000:3000 \
 ```
 
 The Docker image includes:
-- TaskWarrior 3.4.1 pre-installed
+- TaskWarrior 3.4.2 pre-installed
 - Default `.taskrc` with `data.location` and `recurrence=off`
 - Automatic cron-based sync (every 5 minutes)
 - Persistent data storage via volume mounts
@@ -187,7 +187,7 @@ Themes are defined in `src/app/globals.css`. To add a new theme:
 - **UI Components:** shadcn/ui
 - **Forms:** React Hook Form
 - **Data Fetching:** TanStack Query v5
-- **Task Management:** TaskWarrior 3.4.1
+- **Task Management:** TaskWarrior 3.4.2
 - **Icons:** Lucide React
 
 ## 📝 Development Features
