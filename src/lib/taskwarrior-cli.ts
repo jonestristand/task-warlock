@@ -55,7 +55,9 @@ export async function getAllTasks(): Promise<Task[]> {
     return validatedTasks.sort((a, b) => (b.urgency || 0) - (a.urgency || 0));
   } catch (error) {
     console.error('Error fetching tasks:', error);
-    return [];
+    // Rethrow so the UI shows an error instead of an
+    // empty task list (e.g. data volume not writable)
+    throw new Error('Failed to load tasks from TaskWarrior');
   }
 }
 
