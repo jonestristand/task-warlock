@@ -111,6 +111,9 @@ RUN touch /var/log/cron.log && chmod 666 /var/log/cron.log
 # Entrypoint runs as root: fixes volume ownership, starts cron, then runs the app as nextjs
 COPY --chmod=755 docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
+    CMD wget -qO /dev/null http://127.0.0.1:3000/api/health || exit 1
+
 # tini as PID 1: forwards signals and reaps orphaned zombie processes
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["docker-entrypoint.sh"]
