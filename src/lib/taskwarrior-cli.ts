@@ -112,7 +112,7 @@ export async function getCompletedTasks(): Promise<Task[]> {
 // Add task using TaskAdd interface
 export async function addTask(taskData: TaskAdd) {
   try {
-    const args = ['add', taskData.description];
+    const args = ['add'];
 
     if (taskData.project) args.push(`project:${taskData.project}`);
     if (taskData.priority) args.push(`priority:${taskData.priority}`);
@@ -120,6 +120,10 @@ export async function addTask(taskData: TaskAdd) {
     if (taskData.tags && taskData.tags.length > 0) {
       taskData.tags.forEach(tag => args.push(`+${tag}`));
     }
+
+    // `--` makes TaskWarrior treat the description literally; otherwise
+    // a one-word description like "+urgent" is parsed as a tag
+    args.push('--', taskData.description);
 
     // TODO: after adding new task, retrieve it's UUID then pull the whole new task and return it
     const { stdout } = await execa('task', args);
