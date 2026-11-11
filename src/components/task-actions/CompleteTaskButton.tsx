@@ -9,8 +9,8 @@ interface CompleteTaskButtonProps {
 
 export default function CompleteTaskButton({ taskUuid }: CompleteTaskButtonProps) {
   const completeTaskMutation = useCompleteTaskMutation();
-  const handleComplete = async () => {
-    await completeTaskMutation.mutateAsync(taskUuid);
+  const handleComplete = () => {
+    completeTaskMutation.mutate(taskUuid);
   };
 
   return (

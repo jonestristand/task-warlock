@@ -9,8 +9,8 @@ import { Button } from '@/components/ui/button';
 export default function SyncButton() {
   const syncMutation = useSyncTasksMutation();
 
-  const handleSync = async () => {
-    await syncMutation.mutateAsync();
+  const handleSync = () => {
+    syncMutation.mutate();
   };
 
   return (
@@ -19,8 +19,8 @@ export default function SyncButton() {
       size="sm"
       onClick={handleSync}
       disabled={syncMutation.isPending}
-      className="flex items-center gap-2"
-      title="Sync & Refresh"
+      className={`flex items-center gap-2 ${syncMutation.isError ? 'border-(--color-danger) text-(--color-danger)' : ''}`}
+      title={syncMutation.isError ? 'Last sync failed - check the server logs' : 'Sync & Refresh'}
     >
       <CloudUpload className={`w-4 h-4 ${syncMutation.isPending ? 'animate-pulse' : ''}`} />
       <span className="hidden sm:inline">Sync & Refresh</span>

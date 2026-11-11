@@ -144,7 +144,7 @@ export async function addTask(taskData: TaskAdd) {
     return true;
   } catch (error) {
     console.error('Error adding task:', error);
-    return false;
+    throw new Error('Failed to add task');
   }
 }
 
@@ -156,7 +156,7 @@ export async function completeTask(uuid: string): Promise<boolean> {
     return true;
   } catch (error) {
     console.error('Error completing task:', error);
-    return false;
+    throw new Error('Failed to complete task');
   }
 }
 
@@ -168,7 +168,7 @@ export async function restoreTask(uuid: string): Promise<boolean> {
     return true;
   } catch (error) {
     console.error('Error restoring task:', error);
-    return false;
+    throw new Error('Failed to restore task');
   }
 }
 
@@ -224,7 +224,7 @@ export async function updateTask(taskUpdate: {
 
   } catch (error) {
     console.error('Error editing task:', error);
-    return false;
+    throw new Error('Failed to update task');
   }
 }
 
@@ -352,6 +352,6 @@ export async function syncTasks(): Promise<boolean> {
     return true;
   } catch (error) {
     console.error('Error syncing tasks:', error);
-    return false;
+    throw new Error('Task sync failed');
   }
 }

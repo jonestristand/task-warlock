@@ -9,8 +9,8 @@ interface UncompleteTaskButtonProps {
 
 export default function RestoreTaskButton({ taskUuid }: UncompleteTaskButtonProps) {
   const restoreTaskMutation = useRestoreTaskMutation();
-  const handleUncomplete = async () => {
-    await restoreTaskMutation.mutateAsync(taskUuid);
+  const handleUncomplete = () => {
+    restoreTaskMutation.mutate(taskUuid);
   };
 
   return (
