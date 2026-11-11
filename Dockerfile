@@ -55,6 +55,7 @@ FROM node:22-alpine AS runner
 # # Install runtime dependencies
 RUN apk add --no-cache \
     tini \
+    tzdata \
     bash \
     dcron \
     gnutls \
