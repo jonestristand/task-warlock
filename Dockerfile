@@ -110,11 +110,7 @@ USER root
 # Ensure cron log file exists and is writable
 RUN touch /var/log/cron.log && chmod 666 /var/log/cron.log
 
-RUN echo '#!/bin/bash' > /start.sh \
-    && echo 'echo "Starting cron daemon..."' >> /start.sh \
-    && echo 'crond -L /var/log/cron.log' >> /start.sh \
-    && echo 'echo "Starting Next.js app..."' >> /start.sh \
-    && echo 'su -s /bin/bash nextjs -c "cd /app && exec node server.js"' >> /start.sh \
-    && chmod +x /start.sh
+# Entrypoint runs as root: fixes volume ownership, starts cron, then runs the app as nextjs
+COPY --chmod=755 docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
-CMD ["/start.sh"]
+CMD ["docker-entrypoint.sh"]
