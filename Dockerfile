@@ -54,6 +54,7 @@ FROM node:22-alpine AS runner
 
 # # Install runtime dependencies
 RUN apk add --no-cache \
+    tini \
     bash \
     dcron \
     gnutls \
@@ -113,4 +114,6 @@ RUN touch /var/log/cron.log && chmod 666 /var/log/cron.log
 # Entrypoint runs as root: fixes volume ownership, starts cron, then runs the app as nextjs
 COPY --chmod=755 docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
+# tini as PID 1: forwards signals and reaps orphaned zombie processes
+ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["docker-entrypoint.sh"]
