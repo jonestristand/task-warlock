@@ -19,7 +19,9 @@ export const TaskSchema = z.object({
   description: z.string(),
   status: z.string(),
   urgency: z.number(),
-  priority: z.enum(['H', 'M', 'L']).optional(),
+  // Custom uda.priority.values (e.g. 'U') must not fail
+  // validation for the whole list
+  priority: z.string().optional(),
   project: z.string().optional(),
   tags: z.array(z.string()).optional(),
   depends: z.array(z.string()).optional(),
