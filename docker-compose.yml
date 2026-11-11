@@ -1,7 +1,8 @@
 services:
   task-warlock:
-    build: .
-    # image: task-warlock:latest
+    image: ghcr.io/jonestristand/task-warlock:latest
+    # To build locally instead of pulling the published image:
+    # build: .
     container_name: task-warlock
     ports:
       - "3000:3000"
