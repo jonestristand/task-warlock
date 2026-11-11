@@ -38,7 +38,16 @@ async function autoSyncIfEnabled(): Promise<void> {
 // Get all tasks (pending and completed)
 export async function getAllTasks(): Promise<Task[]> {
   try {
-    const { stdout } = await execa('task', ['export']);
+    // A bare `task export` also returns deleted tasks, which have an
+    // `end` date and would show up in the UI as completed
+    const { stdout } = await execa('task', [
+      '(',
+      'status:pending',
+      'or',
+      'status:completed',
+      ')',
+      'export',
+    ]);
     if (!stdout.trim()) return [];
 
     const rawTasks = JSON.parse(stdout);
