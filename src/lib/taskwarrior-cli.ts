@@ -77,40 +77,6 @@ export async function getTask(uuid: string): Promise<Task | null> {
   }
 }
 
-// Get pending tasks
-export async function getPendingTasks(): Promise<Task[]> {
-  try {
-    const { stdout } = await execa('task', ['status:pending', 'export']);
-    if (!stdout.trim()) return [];
-
-    const rawTasks = JSON.parse(stdout);
-    const validatedTasks = TaskListSchema.parse(rawTasks);
-    return validatedTasks.sort((a, b) => (b.urgency || 0) - (a.urgency || 0));
-  } catch (error) {
-    console.error('Error fetching pending tasks:', error);
-    return [];
-  }
-}
-
-// Get completed tasks
-export async function getCompletedTasks(): Promise<Task[]> {
-  try {
-    const { stdout } = await execa('task', ['status:completed', 'export']);
-    if (!stdout.trim()) return [];
-
-    const rawTasks = JSON.parse(stdout);
-    const validatedTasks = TaskListSchema.parse(rawTasks);
-    return validatedTasks.sort((a, b) => {
-      const aEnd = a.end ? new Date(a.end).getTime() : 0;
-      const bEnd = b.end ? new Date(b.end).getTime() : 0;
-      return bEnd - aEnd;
-    });
-  } catch (error) {
-    console.error('Error fetching completed tasks:', error);
-    return [];
-  }
-}
-
 // Add task using TaskAdd interface
 export async function addTask(taskData: TaskAdd) {
   try {

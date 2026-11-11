@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 import { Settings } from 'lucide-react';
 
-import { getCompletedTasks, getPendingTasks, getTags } from '@/lib/taskwarrior-cli';
+import { getAllTasks, getProjects, getTags } from '@/lib/taskwarrior-cli';
 
 import AddTaskSection from '@/components/add-task/AddTaskSection';
 import TaskDashboard from '@/components/dashboard/TaskDashboard';
@@ -17,18 +17,12 @@ export const dynamic = 'force-dynamic';
 export default async function Home() {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: ['tasks', 'pending'],
-    queryFn: getPendingTasks,
-  });
-  await queryClient.prefetchQuery({
-    queryKey: ['tasks', 'completed'],
-    queryFn: getCompletedTasks,
-  });
-  await queryClient.prefetchQuery({
-    queryKey: ['tags'],
-    queryFn: getTags,
-  });
+  // Keys must match the client hooks in task-queries.ts
+  await Promise.all([
+    queryClient.prefetchQuery({ queryKey: ['tasks'], queryFn: getAllTasks }),
+    queryClient.prefetchQuery({ queryKey: ['tags'], queryFn: getTags }),
+    queryClient.prefetchQuery({ queryKey: ['projects'], queryFn: getProjects }),
+  ]);
 
   return (
     <div className="container mx-auto py-10 px-4 sm:px-6 lg:px-8">

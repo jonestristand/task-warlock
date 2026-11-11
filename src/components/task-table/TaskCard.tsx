@@ -10,6 +10,7 @@ import { Priority, Task, TaskUpdate } from '@/lib/schemas';
 import { useTagsQuery, useTasksQuery } from '@/lib/task-queries';
 import { getBlockingTasks, isTaskBlocked } from '@/lib/utils';
 
+import { ClientDate, useHasMounted } from '@/components/ClientDate';
 import TagSelector from '@/components/selectors/TagSelector';
 import CompleteTaskButton from '@/components/task-actions/CompleteTaskButton';
 import RestoreTaskButton from '@/components/task-actions/RestoreTaskButton';
@@ -77,6 +78,7 @@ export default function TaskCard({ task, maxUrgency, onSave }: TaskCardProps) {
 
   const urgencyFontWeight = getUrgencyFontWeight(task.urgency, maxUrgency);
   const isCompleted = Boolean(task.end);
+  const mounted = useHasMounted();
   const blocked = isTaskBlocked(task, allTasks || []);
   const blockingTasks = blocked ? getBlockingTasks(task, allTasks || []) : [];
 
@@ -318,13 +320,14 @@ export default function TaskCard({ task, maxUrgency, onSave }: TaskCardProps) {
                 {(task.due || task.end) && (
                   <div
                     className="flex items-center gap-1"
-                    title={isCompleted ? formatDate(task.end) : formatDate(task.due)}
+                    title={mounted ? (isCompleted ? formatDate(task.end) : formatDate(task.due)) : undefined}
                   >
                     <Calendar className="w-3 h-3 flex-shrink-0" />
                     <span className="whitespace-nowrap">
-                      {isCompleted
-                        ? task.end?.toLocaleDateString()
-                        : task.due?.toLocaleDateString()}
+                      <ClientDate
+                        date={isCompleted ? task.end : task.due}
+                        format={d => d.toLocaleDateString()}
+                      />
                     </span>
                   </div>
                 )}

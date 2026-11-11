@@ -5,6 +5,7 @@ import { ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 
 import { Task, TaskUpdate } from '@/lib/schemas';
 
+import { ClientDate } from '@/components/ClientDate';
 import CompleteTaskButton from '@/components/task-actions/CompleteTaskButton';
 import RestoreTaskButton from '@/components/task-actions/RestoreTaskButton';
 import { Button } from '@/components/ui/button';
@@ -171,7 +172,11 @@ export const createColumns = (showCompleted: boolean): ColumnDef<Task>[] => [
     cell: ({ row }) => {
       const task = row.original;
       const date = showCompleted ? task.end : task.due;
-      return <div>{formatDate(date)}</div>;
+      return (
+        <div>
+          <ClientDate date={date} format={formatDate} />
+        </div>
+      );
     },
   },
   {

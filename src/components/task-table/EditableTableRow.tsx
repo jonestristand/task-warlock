@@ -11,6 +11,7 @@ import { useTagsQuery, useTasksQuery } from '@/lib/task-queries';
 import { getBlockingTasks, isTaskBlocked } from '@/lib/utils';
 
 import TagSelector from '@/components/selectors/TagSelector';
+import { ClientDate } from '@/components/ClientDate';
 import CompleteTaskButton from '@/components/task-actions/CompleteTaskButton';
 import RestoreTaskButton from '@/components/task-actions/RestoreTaskButton';
 import { Input } from '@/components/ui/input';
@@ -294,7 +295,7 @@ export function EditableTableRow({ task, maxUrgency, onSave, showCompleted = fal
           </div>
         ) : (
           <div>
-            {isCompleted ? formatDate(task.end) : formatDate(task.due)}
+            <ClientDate date={isCompleted ? task.end : task.due} format={d => formatDate(d)} />
           </div>
         )}
       </TableCell>
