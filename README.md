@@ -27,8 +27,8 @@ A modern, beautiful web interface for [TaskWarrior](https://taskwarrior.org/) bu
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/taskwarlock.git
-cd taskwarlock
+git clone https://github.com/jonestristand/task-warlock.git
+cd task-warlock
 ```
 
 2. **Install dependencies**
@@ -46,21 +46,24 @@ Navigate to [http://localhost:3000](http://localhost:3000)
 
 ### Docker Deployment
 
-1. **Build the image**
+Images are built by GitHub Actions and published to `ghcr.io/jonestristand/task-warlock` on every push to `main` (`latest`) and on version tags (`v1.2.3` → `1.2.3`, `1.2`, `1`).
+
+1. **Run with docker compose**
 ```bash
-docker build -t taskwarlock:latest .
+docker compose pull
+docker compose up -d
 ```
 
-2. **Run with docker-compose**
-```bash
-docker-compose up -d
-```
-
-3. **Or run directly**
+2. **Or run directly**
 ```bash
 docker run -p 3000:3000 \
   -v ./taskwarrior-data:/home/nextjs/.task \
-  taskwarlock:latest
+  ghcr.io/jonestristand/task-warlock:latest
+```
+
+3. **Or build it yourself**
+```bash
+docker build -t task-warlock:latest .
 ```
 
 The Docker image includes:
@@ -76,8 +79,8 @@ To persist your theme and app settings across container restarts, map the settin
 ```bash
 docker run -p 3000:3000 \
   -v ./taskwarrior-data:/home/nextjs/.task \
-  -v ./taskwarlock-settings:/root/.taskwarlock \
-  taskwarlock:latest
+  -v ./taskwarlock-settings:/home/nextjs/.taskwarlock \
+  ghcr.io/jonestristand/task-warlock:latest
 ```
 
 Or in `docker-compose.yml`:
@@ -86,7 +89,7 @@ services:
   taskwarlock:
     volumes:
       - ./taskwarrior-data:/home/nextjs/.task
-      - ./taskwarlock-settings:/root/.taskwarlock
+      - ./taskwarlock-settings:/home/nextjs/.taskwarlock
 ```
 
 This will persist:
