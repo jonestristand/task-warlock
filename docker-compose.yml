@@ -23,6 +23,10 @@ services:
       - NODE_ENV=production
       # Optional: Set container timezone
       # - TZ=America/New_York
+
+      # Optional: Cron schedule for periodic `task sync` (default: every minute).
+      # Set to "off" if you don't use a TaskWarrior sync server.
+      # - TASK_SYNC_SCHEDULE=*/5 * * * *
       
       # Optional: Disable Next.js telemetry
       - NEXT_TELEMETRY_DISABLED=1

@@ -94,11 +94,6 @@ RUN echo "data.location=/home/nextjs/.task" > /home/nextjs/.taskrc \
     && echo "recurrence=off" >> /home/nextjs/.taskrc \
     && chown nextjs:nodejs /home/nextjs/.taskrc
 
-RUN echo "* * * * * /usr/local/bin/task sync" > /tmp/crontab \
-    && crontab -u nextjs /tmp/crontab \
-    && rm /tmp/crontab \
-    && chmod 644 /etc/crontabs/nextjs
-
 # # Switch to non-root user
 USER nextjs
 
@@ -107,6 +102,9 @@ EXPOSE 3000
 
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
+
+# Cron schedule for periodic `task sync` (installed by the entrypoint); "off" disables it
+ENV TASK_SYNC_SCHEDULE="* * * * *"
 
 USER root
 # Ensure cron log file exists and is writable

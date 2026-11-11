@@ -66,7 +66,7 @@ docker run -p 3000:3000 \
 The Docker image includes:
 - TaskWarrior 3.4.2 pre-installed
 - Default `.taskrc` with `data.location` and `recurrence=off`
-- Automatic cron-based sync (every 5 minutes)
+- Automatic cron-based `task sync` (every minute by default; set `TASK_SYNC_SCHEDULE` to a cron expression, or `off` if you don't use a sync server)
 - Persistent data storage via volume mounts
 
 ### Persisting Settings

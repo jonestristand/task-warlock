@@ -16,7 +16,15 @@ for dir in "$APP_HOME/.task" "$APP_HOME/.taskwarlock"; do
   fi
 done
 
-echo "Starting cron daemon..."
-crond -L /var/log/cron.log
+# Periodic `task sync`. Set TASK_SYNC_SCHEDULE to a cron expression,
+# or to "off" (or empty) to disable it, e.g. when no sync server is configured.
+if [ -n "$TASK_SYNC_SCHEDULE" ] && [ "$TASK_SYNC_SCHEDULE" != "off" ]; then
+  echo "Scheduling task sync: $TASK_SYNC_SCHEDULE"
+  echo "$TASK_SYNC_SCHEDULE /usr/local/bin/task sync" | crontab -u "$APP_USER" -
+  crond -L /var/log/cron.log
+else
+  echo "Periodic task sync disabled"
+fi
+
 echo "Starting Next.js app..."
 exec su -s /bin/bash nextjs -c "cd /app && exec node server.js"
