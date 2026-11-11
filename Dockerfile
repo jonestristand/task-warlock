@@ -26,6 +26,7 @@ RUN mkdir -p /tmp/taskwarrior \
     && cmake -S . -B build -DCMAKE_BUILD_TYPE=Release \
     && cmake --build build \
     && cmake --install build \
+    && strip /usr/local/bin/task \
     && cd / \
     && rm -rf /tmp/taskwarrior
 
