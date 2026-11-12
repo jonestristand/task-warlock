@@ -265,34 +265,12 @@ export async function getProjects(): Promise<string[]> {
 // Get contexts
 export async function getContexts(): Promise<string[]> {
   try {
-    const { stdout } = await task(['context', 'list']);
-    if (!stdout.trim()) return [];
-
-    const lines = stdout.split('\n');
-    const contexts: Set<string> = new Set();
-
-    for (const line of lines) {
-      const trimmed = line.trim();
-      if (
-        trimmed &&
-        !trimmed.includes('Context') &&
-        !trimmed.includes('---') &&
-        !trimmed.includes('Definition')
-      ) {
-        const parts = trimmed.split(/\s+/);
-        if (
-          parts.length > 0 &&
-          parts[0] &&
-          !parts[0].match(/^\d+$/) &&
-          parts[0] !== 'write' &&
-          parts[0] !== 'read'
-        ) {
-          contexts.add(parts[0]);
-        }
-      }
-    }
-
-    return Array.from(contexts).sort();
+    const { stdout } = await task(['_context']);
+    return stdout
+      .split('\n')
+      .map(line => line.trim())
+      .filter(Boolean)
+      .sort();
   } catch (error) {
     console.error('Error getting contexts:', error);
     return [];
@@ -302,9 +280,9 @@ export async function getContexts(): Promise<string[]> {
 // Get current context
 export async function getCurrentContext(): Promise<string | null> {
   try {
-    const { stdout } = await task(['context', 'show']);
-    const match = stdout.match(/Context '(.+)' is currently applied/);
-    return match ? match[1] : null;
+    const { stdout } = await task(['_get', 'rc.context']);
+    const context = stdout.trim();
+    return context && context !== 'none' ? context : null;
   } catch (error) {
     console.error('Error getting current context:', error);
     return null;
