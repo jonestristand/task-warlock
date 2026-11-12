@@ -2,6 +2,7 @@
 
 import { type Task, TaskAdd, TaskSchema, TaskUpdate } from './schemas';
 import { getSettings } from './settings';
+import { assertValidTags } from './tags';
 import {
   assertUuid,
   exportTasks,
@@ -67,6 +68,7 @@ export async function getTask(uuid: string): Promise<Task | null> {
 // Add task using TaskAdd interface
 export async function addTask(taskData: TaskAdd) {
   try {
+    assertValidTags(taskData.tags ?? []);
     const args = ['add'];
 
     if (taskData.project) args.push(`project:${taskData.project}`);
@@ -89,7 +91,12 @@ export async function addTask(taskData: TaskAdd) {
       const newTaskId = match[1];
       const newTask = await getTask(newTaskId);
       if (newTask) {
-        // Do something with the new task if needed
+        // Backstop: remove the task if TaskWarrior parsed it differently than requested
+        const missing = (taskData.tags ?? []).filter(t => !(newTask.tags ?? []).includes(t));
+        if (newTask.description !== taskData.description || missing.length) {
+          await task(['rc.confirmation=off', newTask.uuid, 'delete']);
+          throw new Error('TaskWarrior stored the task differently than requested');
+        }
         return newTask;
       }
     }
@@ -166,6 +173,8 @@ export async function updateTask(taskUpdate: {
       // Tags to remove: in originalTags but not in updatedTags
       const tagsToRemove = originalTags.filter(tag => !updatedTags.includes(tag));
 
+      // An unparseable tag would replace the whole description on modify
+      assertValidTags([...tagsToAdd, ...tagsToRemove]);
       tagsToAdd.forEach(tag => args.push(`+${tag}`));
       tagsToRemove.forEach(tag => args.push(`-${tag}`));
     }

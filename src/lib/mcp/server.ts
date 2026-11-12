@@ -4,6 +4,7 @@ import { McpServer } from '@modelcontextprotocol/server';
 import { z } from 'zod';
 
 import { getSettings } from '@/lib/settings';
+import { tagProblem } from '@/lib/tags';
 import { assertUuid, exportRawTasks, fetchProjects, fetchTags, task } from '@/lib/taskwarrior';
 
 // TaskWarrior dates look like 20261201T153000Z; agents get ISO 8601 instead
@@ -35,11 +36,11 @@ function toolError(error: unknown) {
 const token = (what: string) =>
   z.string().min(1).regex(/^\S+$/, `${what} must not contain whitespace`);
 
-// Tags are passed as `+tag` / `-tag`, so they must not start with either sign
-const tagName = z
-  .string()
-  .min(1)
-  .regex(/^[^\s+-]\S*$/, 'tag must not contain whitespace or start with + or -');
+// Tags TaskWarrior would read as description text are rejected (see lib/tags.ts)
+const tagName = z.string().superRefine((tag, ctx) => {
+  const problem = tagProblem(tag);
+  if (problem) ctx.addIssue({ code: 'custom', message: problem });
+});
 
 // '' clears the attribute
 const clearable = (what: string) => z.union([z.literal(''), token(what)]);
@@ -192,8 +193,22 @@ export function buildMcpServer(): McpServer {
         const { stdout } = await task(cmd);
         const uuid = /Created task ([0-9a-f-]{36})/i.exec(stdout)?.[1];
         if (!uuid) throw new Error(`Unexpected TaskWarrior output: ${stdout}`);
+
+        // Backstop: if TaskWarrior parsed anything differently than requested,
+        // remove the mangled task rather than leave it behind
+        const created = await getRawTask(uuid);
+        const storedTags = (created.tags as string[] | undefined) ?? [];
+        const missing = (args.tags ?? []).filter(t => !storedTags.includes(t));
+        if (created.description !== args.description || missing.length) {
+          await task(['rc.confirmation=off', uuid, 'delete']);
+          throw new Error(
+            `TaskWarrior stored the task differently than requested (description ` +
+              `${JSON.stringify(created.description)}, missing tags ${JSON.stringify(missing)}); ` +
+              `it was not kept`
+          );
+        }
         await autoSyncIfEnabled();
-        return json(isoDates(await getRawTask(uuid)));
+        return json(isoDates(created));
       } catch (error) {
         return toolError(error);
       }

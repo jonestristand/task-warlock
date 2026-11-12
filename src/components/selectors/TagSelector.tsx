@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import { Check, ChevronsUpDown, X } from 'lucide-react';
 
+import { tagProblem } from '@/lib/tags';
 import { cn } from '@/lib/utils';
 
 import { Badge } from '@/components/ui/badge';
@@ -55,7 +56,12 @@ export default function TagSelector({
 
   const handleCreateTag = (newTag: string) => {
     const trimmedTag = newTag.trim();
-    if (trimmedTag && !selectedTags.includes(trimmedTag) && !availableTags.includes(trimmedTag)) {
+    if (
+      trimmedTag &&
+      !tagProblem(trimmedTag) &&
+      !selectedTags.includes(trimmedTag) &&
+      !availableTags.includes(trimmedTag)
+    ) {
       onTagsChange([...selectedTags, trimmedTag]);
       setInputValue('');
     }
@@ -122,7 +128,11 @@ export default function TagSelector({
             />
             <CommandList>
               <CommandEmpty>
-                {inputValue.trim() ? (
+                {inputValue.trim() && tagProblem(inputValue.trim()) ? (
+                  <p className="px-3 py-2 text-sm text-(--color-danger)">
+                    {tagProblem(inputValue.trim())}
+                  </p>
+                ) : inputValue.trim() ? (
                   <div className="py-2">
                     <Button
                       variant="ghost"
