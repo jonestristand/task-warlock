@@ -89,7 +89,11 @@ export default function TaskTable({
   });
 
   if (!isLoading && tasks?.length === 0) {
-    return <div className="text-center py-8 text-muted-foreground">No pending tasks found.</div>;
+    return (
+      <div className="text-center py-8 text-muted-foreground">
+        {showCompleted ? 'No completed tasks found.' : 'No pending tasks found.'}
+      </div>
+    );
   }
 
   const maxUrgency = tasks ? Math.max(...tasks.map(task => task.urgency || 0)) : 0;
@@ -104,10 +108,10 @@ export default function TaskTable({
                 <Skeleton className="h-12 w-full" />
               </div>
             ))
-          : tasks?.map(task => (
+          : table.getRowModel().rows.map(row => (
               <TaskCard
-                key={task.uuid}
-                task={task}
+                key={row.id}
+                task={row.original}
                 maxUrgency={maxUrgency}
                 onSave={handleSaveTask}
               />
@@ -115,7 +119,7 @@ export default function TaskTable({
       </div>
 
       {/* Desktop: Table Layout with TanStack Table (>= 1024px) */}
-      <div className="hidden lg:block space-y-4">
+      <div className="hidden lg:block">
         <div className="rounded-md border">
           <Table className="w-full">
             <TableHeader>
@@ -160,51 +164,51 @@ export default function TaskTable({
             </TableBody>
           </Table>
         </div>
+      </div>
 
-        {/* Pagination Controls */}
-        <div className="flex items-center justify-between px-2">
-          <div className="flex items-center gap-4">
-            <div className="text-sm text-muted-foreground">
-              Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">Items per page:</span>
-              <select
-                value={pagination.pageSize}
-                onChange={(e) => {
-                  const newSize = Number(e.target.value);
-                  setPagination(prev => ({
-                    ...prev,
-                    pageSize: newSize,
-                  }));
-                }}
-                className="h-8 rounded-md border border-input bg-background px-3 py-1 text-sm"
-              >
-                <option value={10}>10</option>
-                <option value={20}>20</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
-              </select>
-            </div>
+      {/* Pagination Controls */}
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-2 px-2">
+        <div className="flex items-center gap-4">
+          <div className="text-sm text-muted-foreground">
+            Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
           </div>
-          <div className="flex items-center space-x-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-muted-foreground">Items per page:</span>
+            <select
+              value={pagination.pageSize}
+              onChange={(e) => {
+                const newSize = Number(e.target.value);
+                setPagination(prev => ({
+                  ...prev,
+                  pageSize: newSize,
+                }));
+              }}
+              className="h-8 rounded-md border border-input bg-background px-3 py-1 text-sm"
             >
-              Previous
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              Next
-            </Button>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </select>
           </div>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
         </div>
       </div>
     </>
