@@ -1,41 +1,20 @@
 'use server';
 
-import { execa } from 'execa';
-
 import { type Task, TaskAdd, TaskSchema, TaskUpdate } from './schemas';
-import { TaskListSchema } from './schemas';
 import { getSettings } from './settings';
+import {
+  assertUuid,
+  exportTasks,
+  fetchProjects,
+  fetchTags,
+  formatDateForTaskWarrior,
+  task,
+} from './taskwarrior';
 import {
   DEFAULT_URGENCY_AGE_MAX,
   DEFAULT_URGENCY_COEFFICIENTS,
   type UrgencyConfig,
 } from './urgency';
-
-const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
-// Server actions can be called with arbitrary input, and TaskWarrior treats this
-// argument as a filter, so "1-5" or "status:pending" would target many tasks
-function assertUuid(uuid: string): void {
-  if (!UUID_RE.test(uuid)) throw new Error(`Invalid task UUID: ${uuid}`);
-}
-
-// Never let TaskWarrior wait on an interactive prompt (e.g. bulk confirmation):
-// with stdin closed it answers "no" immediately; the timeout is a safety net
-function task(args: string[]) {
-  return execa('task', args, { stdin: 'ignore', timeout: 30_000 });
-}
-
-const formatDateForTaskWarrior = (date: Date): string => {
-  // Format as YYYY-MM-DDTHH:MMZ for TaskWarrior
-  const year = date.getUTCFullYear().toString();
-  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
-  const day = date.getUTCDate().toString().padStart(2, '0');
-  const hour = date.getUTCHours().toString().padStart(2, '0');
-  const minute = date.getUTCMinutes().toString().padStart(2, '0');
-  const second = date.getUTCSeconds().toString().padStart(2, '0');
-
-  return `${year}-${month}-${day}T${hour}:${minute}:${second}Z`;
-};
 
 /**
  * Run TaskWarrior sync if auto-sync is enabled in settings
@@ -59,19 +38,8 @@ export async function getAllTasks(): Promise<Task[]> {
   try {
     // A bare `task export` also returns deleted tasks, which have an
     // `end` date and would show up in the UI as completed
-    const { stdout } = await task([
-      '(',
-      'status:pending',
-      'or',
-      'status:completed',
-      ')',
-      'export',
-    ]);
-    if (!stdout.trim()) return [];
-
-    const rawTasks = JSON.parse(stdout);
-    const validatedTasks = TaskListSchema.parse(rawTasks);
-    return validatedTasks.sort((a, b) => (b.urgency || 0) - (a.urgency || 0));
+    const tasks = await exportTasks(['(', 'status:pending', 'or', 'status:completed', ')']);
+    return tasks.sort((a, b) => (b.urgency || 0) - (a.urgency || 0));
   } catch (error) {
     console.error('Error fetching tasks:', error);
     // Rethrow so the UI shows an error instead of an
@@ -219,48 +187,17 @@ export async function updateTask(taskUpdate: {
 // Get all tags
 export async function getTags(): Promise<string[]> {
   try {
-    const { stdout } = await task(['_unique', 'tags']);
-    if (!stdout.trim()) return [];
-
-    const tagsSet = new Set<string>();
-
-    stdout.split('\n').forEach((line: string) => {
-      const trimmed = line.trim();
-      if (trimmed) {
-        // Split by comma and add each tag to the set
-        trimmed.split(',').forEach((tag: string) => {
-          const cleanTag = tag.trim();
-          if (cleanTag) {
-            tagsSet.add(cleanTag);
-          }
-        });
-      }
-    });
-
-    return Array.from(tagsSet).sort();
+    return await fetchTags();
   } catch (error) {
     console.error('Error getting tags:', error);
     return [];
   }
 }
 
-// Get all tags
+// Get all projects
 export async function getProjects(): Promise<string[]> {
   try {
-    const { stdout } = await task(['_projects']);
-    if (!stdout.trim()) return [];
-
-    const lines = stdout.split('\n');
-    const projects: string[] = [];
-
-    for (const line of lines) {
-      const trimmed = line.trim();
-      if (trimmed) {
-        projects.push(trimmed);
-      }
-    }
-
-    return projects.sort();
+    return await fetchProjects();
   } catch (error) {
     console.error('Error getting projects:', error);
     return [];
