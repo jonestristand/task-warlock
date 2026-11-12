@@ -70,7 +70,11 @@ export function buildMcpServer(): McpServer {
         const filter: string[] = [];
         if (args.status === 'all') filter.push('status.not:deleted');
         else filter.push(`status:${args.status}`);
-        if (args.project) filter.push(`project:${args.project}`);
+        // `project:home` is a plain prefix match that would also hit 'homework';
+        // this matches 'home' exactly plus its sub-projects ('home.garden')
+        if (args.project) {
+          filter.push('(', `project.is:${args.project}`, 'or', `project:${args.project}.`, ')');
+        }
         for (const tag of args.tags ?? []) filter.push(`+${tag}`);
         for (const tag of args.exclude_tags ?? []) filter.push(`-${tag}`);
         if (args.due_before) filter.push(`due.before:${args.due_before}`);
