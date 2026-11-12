@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react';
 import { RefreshCw } from 'lucide-react';
 
 import { Task } from '@/lib/schemas';
-import { useProjectsQuery, useTagsQuery, useTasksQuery } from '@/lib/task-queries';
+import { useProjectsQuery, useTagsQuery, useTasksQuery, useUrgencyConfigQuery } from '@/lib/task-queries';
 
 import SyncButton from '@/components/SyncButton';
 import TaskTable from '@/components/task-table/TaskTable';
@@ -25,6 +25,7 @@ export default function TaskDashboard() {
   const { data: allTasks, isPending, isError, refetch: refetchTasks } = useTasksQuery();
   const { data: projects, refetch: refetchProjects } = useProjectsQuery();
   const { data: tags, refetch: refetchTags } = useTagsQuery();
+  useUrgencyConfigQuery(); // loaded up front for optimistic urgency estimates
 
   // Filter tasks based on completion status, project, and tags
   const filteredTasks = useMemo(() => {

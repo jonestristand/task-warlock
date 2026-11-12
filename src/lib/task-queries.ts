@@ -1,9 +1,28 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import type { Task } from '@/lib/schemas';
-import { addTask, completeTask, getAllTasks, getProjects, getTags, restoreTask, syncTasks, updateTask } from '@/lib/taskwarrior-cli';
+import { addTask, completeTask, getAllTasks, getProjects, getTags, getUrgencyConfig, restoreTask, syncTasks, updateTask } from '@/lib/taskwarrior-cli';
 
-import { estimateUrgency } from './urgency';
+import { type UrgencyConfig, estimateUrgency } from './urgency';
+
+const urgencyConfigQuery = {
+  queryKey: ['urgency-config'],
+  queryFn: async () => await getUrgencyConfig(),
+  staleTime: 5 * 60 * 1000,
+};
+
+export const useUrgencyConfigQuery = () => useQuery(urgencyConfigQuery);
+
+// TaskWarrior's urgency config for optimistic estimates; defaults if it can't be read
+async function loadUrgencyConfig(
+  queryClient: ReturnType<typeof useQueryClient>
+): Promise<UrgencyConfig | undefined> {
+  try {
+    return await queryClient.ensureQueryData<UrgencyConfig>(urgencyConfigQuery);
+  } catch {
+    return undefined;
+  }
+}
 
 export const useTasksQuery = () => {
   const query = useQuery({
@@ -51,7 +70,12 @@ export const useUpdateTaskMutation = () => {
           optimisticTask.updates.priority !== '' ? optimisticTask.updates.priority : undefined,
         due: optimisticTask.updates.due === null ? undefined : optimisticTask.updates.due,
       };
-      updatedTask.urgency = estimateUrgency(updatedTask);
+      const urgencyConfig = await loadUrgencyConfig(queryClient);
+      updatedTask.urgency = estimateUrgency(
+        updatedTask,
+        urgencyConfig?.coefficients,
+        urgencyConfig?.ageMax
+      );
 
       // Update task list
       queryClient.setQueryData<Task[]>(['tasks'], old => {
@@ -181,7 +205,8 @@ export const useAddNewTaskMutation = () => {
         urgency: 0,
         ...newTaskData,
       };
-      newTask.urgency = estimateUrgency(newTask);
+      const urgencyConfig = await loadUrgencyConfig(queryClient);
+      newTask.urgency = estimateUrgency(newTask, urgencyConfig?.coefficients, urgencyConfig?.ageMax);
 
       queryClient.setQueryData<Task[]>(['tasks'], old => {
         if (!old) return [newTask];

@@ -5,6 +5,11 @@ import { execa } from 'execa';
 import { type Task, TaskAdd, TaskSchema, TaskUpdate } from './schemas';
 import { TaskListSchema } from './schemas';
 import { getSettings } from './settings';
+import {
+  DEFAULT_URGENCY_AGE_MAX,
+  DEFAULT_URGENCY_COEFFICIENTS,
+  type UrgencyConfig,
+} from './urgency';
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -315,4 +320,32 @@ export async function syncTasks(): Promise<boolean> {
     console.error('Error syncing tasks:', error);
     throw new Error('Task sync failed');
   }
+}
+
+// Urgency settings from TaskWarrior's config (.taskrc), the single source of truth
+export async function getUrgencyConfig(): Promise<UrgencyConfig> {
+  const { stdout } = await task(['_show']);
+  const config = new Map<string, number>();
+  for (const line of stdout.split('\n')) {
+    const eq = line.indexOf('=');
+    if (eq > 0 && line.startsWith('urgency.')) config.set(line.slice(0, eq), Number(line.slice(eq + 1)));
+  }
+  const get = (key: string, fallback: number) => {
+    const value = config.get(key);
+    return value !== undefined && Number.isFinite(value) ? value : fallback;
+  };
+  const d = DEFAULT_URGENCY_COEFFICIENTS;
+  return {
+    coefficients: {
+      next: get('urgency.user.tag.next.coefficient', d.next),
+      due: get('urgency.due.coefficient', d.due),
+      priorityH: get('urgency.uda.priority.H.coefficient', d.priorityH),
+      priorityM: get('urgency.uda.priority.M.coefficient', d.priorityM),
+      priorityL: get('urgency.uda.priority.L.coefficient', d.priorityL),
+      age: get('urgency.age.coefficient', d.age),
+      tags: get('urgency.tags.coefficient', d.tags),
+      project: get('urgency.project.coefficient', d.project),
+    },
+    ageMax: get('urgency.age.max', DEFAULT_URGENCY_AGE_MAX),
+  };
 }

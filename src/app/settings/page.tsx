@@ -12,10 +12,10 @@ import {
   getSettingsFilePathAction,
   updateSettingsAction,
 } from '@/lib/settings-actions';
+import { useUrgencyConfigQuery } from '@/lib/task-queries';
 import { themes } from '@/lib/themes';
 
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -42,34 +42,24 @@ export default function SettingsPage() {
     queryFn: getSettingsFilePathAction,
   });
 
+  // Urgency is configured in TaskWarrior (.taskrc); shown read-only here
+  const { data: urgencyConfig, isError: urgencyError } = useUrgencyConfigQuery();
+
   // Local form state - initialize with settings or defaults
   const [formData, setFormData] = useState({
     autoSync: settings?.autoSync ?? false,
     theme: settings?.theme ?? 'catppuccin-mocha',
     defaultPageSize: settings?.defaultPageSize ?? 20,
-    urgencyAgeMax: settings?.urgencyAgeMax ?? 365,
-    urgencyCoefficients: settings?.urgencyCoefficients ?? {
-      next: 15.0,
-      due: 12.0,
-      priorityH: 6.0,
-      priorityM: 3.9,
-      priorityL: 1.8,
-      age: 2.0,
-      tags: 1.0,
-      project: 1.0,
-    },
   });
 
   // Update form data when settings load (only once when settings become available)
   useEffect(() => {
     if (settings) {
-      setFormData(prev => ({
+      setFormData({
         autoSync: settings.autoSync,
         theme: settings.theme,
         defaultPageSize: settings.defaultPageSize,
-        urgencyAgeMax: settings.urgencyAgeMax,
-        urgencyCoefficients: settings.urgencyCoefficients,
-      }));
+      });
     }
   }, [settings]);
 
@@ -92,8 +82,6 @@ export default function SettingsPage() {
         autoSync: settings.autoSync,
         theme: settings.theme,
         defaultPageSize: settings.defaultPageSize,
-        urgencyAgeMax: settings.urgencyAgeMax,
-        urgencyCoefficients: settings.urgencyCoefficients,
       });
     }
   };
@@ -102,10 +90,7 @@ export default function SettingsPage() {
     settings &&
     (formData.autoSync !== settings.autoSync ||
       formData.theme !== settings.theme ||
-      formData.defaultPageSize !== settings.defaultPageSize ||
-      formData.urgencyAgeMax !== settings.urgencyAgeMax ||
-      JSON.stringify(formData.urgencyCoefficients) !==
-        JSON.stringify(settings.urgencyCoefficients));
+      formData.defaultPageSize !== settings.defaultPageSize);
 
   if (isLoading) {
     return (
@@ -223,230 +208,44 @@ export default function SettingsPage() {
           </div>
         </div>
 
-        {/* Urgency Calculation Settings */}
+        {/* Urgency (read-only, from TaskWarrior) */}
         <div className="space-y-4">
           <div>
             <h2 className="text-xl font-semibold mb-1">Urgency Calculation</h2>
             <p className="text-sm text-muted-foreground">
-              Configure how task urgency is calculated
+              Urgency is calculated by TaskWarrior. To change these values, set the{' '}
+              <code className="text-xs">urgency.*</code> options in your{' '}
+              <code className="text-xs">.taskrc</code>.
             </p>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="urgency-age-max">Maximum Age (days)</Label>
-            <Input
-              id="urgency-age-max"
-              type="number"
-              min="1"
-              max="3650"
-              value={formData.urgencyAgeMax}
-              onChange={e =>
-                setFormData(prev => ({ ...prev, urgencyAgeMax: parseInt(e.target.value) || 365 }))
-              }
-              className="max-w-xs"
-            />
-            <p className="text-sm text-muted-foreground">
-              Tasks older than this age (in days) will reach maximum age urgency. Default: 365
-              days
-            </p>
-          </div>
-
-          <div className="space-y-4 pt-4">
-            <div>
-              <h3 className="text-base font-semibold mb-1">Urgency Coefficients</h3>
-              <p className="text-sm text-muted-foreground">
-                Adjust the weight of each factor in urgency calculation
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* Next Tag */}
-              <div className="space-y-2">
-                <Label htmlFor="coeff-next">Next Tag</Label>
-                <Input
-                  id="coeff-next"
-                  type="number"
-                  step="0.1"
-                  value={formData.urgencyCoefficients.next}
-                  onChange={e =>
-                    setFormData(prev => ({
-                      ...prev,
-                      urgencyCoefficients: {
-                        ...prev.urgencyCoefficients,
-                        next: parseFloat(e.target.value) || 0,
-                      },
-                    }))
-                  }
-                  className="max-w-xs"
-                />
-                <p className="text-xs text-muted-foreground">
-                  Boost for tasks tagged with &quot;next&quot; (default: 15.0)
-                </p>
-              </div>
-
-              {/* Due Date */}
-              <div className="space-y-2">
-                <Label htmlFor="coeff-due">Due Date</Label>
-                <Input
-                  id="coeff-due"
-                  type="number"
-                  step="0.1"
-                  value={formData.urgencyCoefficients.due}
-                  onChange={e =>
-                    setFormData(prev => ({
-                      ...prev,
-                      urgencyCoefficients: {
-                        ...prev.urgencyCoefficients,
-                        due: parseFloat(e.target.value) || 0,
-                      },
-                    }))
-                  }
-                  className="max-w-xs"
-                />
-                <p className="text-xs text-muted-foreground">
-                  Weight for due date proximity (default: 12.0)
-                </p>
-              </div>
-
-              {/* High Priority */}
-              <div className="space-y-2">
-                <Label htmlFor="coeff-priority-h">High Priority</Label>
-                <Input
-                  id="coeff-priority-h"
-                  type="number"
-                  step="0.1"
-                  value={formData.urgencyCoefficients.priorityH}
-                  onChange={e =>
-                    setFormData(prev => ({
-                      ...prev,
-                      urgencyCoefficients: {
-                        ...prev.urgencyCoefficients,
-                        priorityH: parseFloat(e.target.value) || 0,
-                      },
-                    }))
-                  }
-                  className="max-w-xs"
-                />
-                <p className="text-xs text-muted-foreground">Priority: High (default: 6.0)</p>
-              </div>
-
-              {/* Medium Priority */}
-              <div className="space-y-2">
-                <Label htmlFor="coeff-priority-m">Medium Priority</Label>
-                <Input
-                  id="coeff-priority-m"
-                  type="number"
-                  step="0.1"
-                  value={formData.urgencyCoefficients.priorityM}
-                  onChange={e =>
-                    setFormData(prev => ({
-                      ...prev,
-                      urgencyCoefficients: {
-                        ...prev.urgencyCoefficients,
-                        priorityM: parseFloat(e.target.value) || 0,
-                      },
-                    }))
-                  }
-                  className="max-w-xs"
-                />
-                <p className="text-xs text-muted-foreground">Priority: Medium (default: 3.9)</p>
-              </div>
-
-              {/* Low Priority */}
-              <div className="space-y-2">
-                <Label htmlFor="coeff-priority-l">Low Priority</Label>
-                <Input
-                  id="coeff-priority-l"
-                  type="number"
-                  step="0.1"
-                  value={formData.urgencyCoefficients.priorityL}
-                  onChange={e =>
-                    setFormData(prev => ({
-                      ...prev,
-                      urgencyCoefficients: {
-                        ...prev.urgencyCoefficients,
-                        priorityL: parseFloat(e.target.value) || 0,
-                      },
-                    }))
-                  }
-                  className="max-w-xs"
-                />
-                <p className="text-xs text-muted-foreground">Priority: Low (default: 1.8)</p>
-              </div>
-
-              {/* Age */}
-              <div className="space-y-2">
-                <Label htmlFor="coeff-age">Task Age</Label>
-                <Input
-                  id="coeff-age"
-                  type="number"
-                  step="0.1"
-                  value={formData.urgencyCoefficients.age}
-                  onChange={e =>
-                    setFormData(prev => ({
-                      ...prev,
-                      urgencyCoefficients: {
-                        ...prev.urgencyCoefficients,
-                        age: parseFloat(e.target.value) || 0,
-                      },
-                    }))
-                  }
-                  className="max-w-xs"
-                />
-                <p className="text-xs text-muted-foreground">
-                  Weight for task age (default: 2.0)
-                </p>
-              </div>
-
-              {/* Tags */}
-              <div className="space-y-2">
-                <Label htmlFor="coeff-tags">Tags</Label>
-                <Input
-                  id="coeff-tags"
-                  type="number"
-                  step="0.1"
-                  value={formData.urgencyCoefficients.tags}
-                  onChange={e =>
-                    setFormData(prev => ({
-                      ...prev,
-                      urgencyCoefficients: {
-                        ...prev.urgencyCoefficients,
-                        tags: parseFloat(e.target.value) || 0,
-                      },
-                    }))
-                  }
-                  className="max-w-xs"
-                />
-                <p className="text-xs text-muted-foreground">
-                  Weight for having tags (default: 1.0)
-                </p>
-              </div>
-
-              {/* Project */}
-              <div className="space-y-2">
-                <Label htmlFor="coeff-project">Project</Label>
-                <Input
-                  id="coeff-project"
-                  type="number"
-                  step="0.1"
-                  value={formData.urgencyCoefficients.project}
-                  onChange={e =>
-                    setFormData(prev => ({
-                      ...prev,
-                      urgencyCoefficients: {
-                        ...prev.urgencyCoefficients,
-                        project: parseFloat(e.target.value) || 0,
-                      },
-                    }))
-                  }
-                  className="max-w-xs"
-                />
-                <p className="text-xs text-muted-foreground">
-                  Weight for having a project (default: 1.0)
-                </p>
-              </div>
-            </div>
-          </div>
+          {urgencyError ? (
+            <p className="text-sm text-destructive">Could not read urgency settings from TaskWarrior.</p>
+          ) : !urgencyConfig ? (
+            <p className="text-sm text-muted-foreground">Loading...</p>
+          ) : (
+            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-sm">
+              {[
+                ['Next tag', 'urgency.user.tag.next.coefficient', urgencyConfig.coefficients.next],
+                ['Due date', 'urgency.due.coefficient', urgencyConfig.coefficients.due],
+                ['High priority', 'urgency.uda.priority.H.coefficient', urgencyConfig.coefficients.priorityH],
+                ['Medium priority', 'urgency.uda.priority.M.coefficient', urgencyConfig.coefficients.priorityM],
+                ['Low priority', 'urgency.uda.priority.L.coefficient', urgencyConfig.coefficients.priorityL],
+                ['Task age', 'urgency.age.coefficient', urgencyConfig.coefficients.age],
+                ['Maximum age (days)', 'urgency.age.max', urgencyConfig.ageMax],
+                ['Tags', 'urgency.tags.coefficient', urgencyConfig.coefficients.tags],
+                ['Project', 'urgency.project.coefficient', urgencyConfig.coefficients.project],
+              ].map(([label, key, value]) => (
+                <div key={key} className="flex items-baseline justify-between gap-4 border-b py-1.5">
+                  <dt>
+                    {label}
+                    <span className="block text-xs text-muted-foreground font-mono">{key}</span>
+                  </dt>
+                  <dd className="font-mono tabular-nums">{value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
         </div>
 
         {/* Action Buttons */}

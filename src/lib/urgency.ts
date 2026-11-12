@@ -2,11 +2,26 @@
 // Based on TaskWarrior's urgency calculation algorithm
 // See: https://taskwarrior.org/docs/urgency/
 import { Task, TaskUpdate } from './schemas';
-import type { UrgencyCoefficients } from './settings';
 
-// Default coefficients from TaskWarrior
-// These are used when settings are not provided
-const DEFAULT_URGENCY_COEFFICIENTS = {
+export interface UrgencyCoefficients {
+  next: number; // Special "next" tag
+  due: number; // Due date
+  priorityH: number; // High priority
+  priorityM: number; // Medium priority
+  priorityL: number; // Low priority
+  age: number; // Task age
+  tags: number; // Tags present
+  project: number; // Project assigned
+}
+
+// Urgency settings as configured in TaskWarrior (.taskrc)
+export interface UrgencyConfig {
+  coefficients: UrgencyCoefficients;
+  ageMax: number;
+}
+
+// TaskWarrior's default coefficients, used until the real config has loaded
+export const DEFAULT_URGENCY_COEFFICIENTS: UrgencyCoefficients = {
   next: 15.0, // Special "next" tag
   due: 12.0, // Due date
   priorityH: 6.0, // High priority
@@ -15,11 +30,11 @@ const DEFAULT_URGENCY_COEFFICIENTS = {
   age: 2.0, // Task age
   tags: 1.0, // Tags present
   project: 1.0, // Project assigned
-} as const;
+};
 
 // Default maximum age for urgency calculation (365 days = 1 year)
 // This matches TaskWarrior's typical default
-const DEFAULT_URGENCY_AGE_MAX = 365;
+export const DEFAULT_URGENCY_AGE_MAX = 365;
 
 /**
  * Calculate urgency factor for due date using TaskWarrior's algorithm

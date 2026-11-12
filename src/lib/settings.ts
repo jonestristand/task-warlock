@@ -34,40 +34,16 @@ function getDefaultSettingsPath(): string {
 // Settings file path: env var takes priority, then auto-detect environment
 const SETTINGS_FILE = process.env.SETTINGS_FILE || getDefaultSettingsPath();
 
-export interface UrgencyCoefficients {
-  next: number; // Special "next" tag
-  due: number; // Due date
-  priorityH: number; // High priority
-  priorityM: number; // Medium priority
-  priorityL: number; // Low priority
-  age: number; // Task age
-  tags: number; // Tags present
-  project: number; // Project assigned
-}
-
 export interface AppSettings {
   autoSync: boolean;
   theme: Theme; // Default theme for new sessions (current theme stored in localStorage)
-  urgencyAgeMax: number;
-  urgencyCoefficients: UrgencyCoefficients;
   defaultPageSize: number; // Default items per page in task table
 }
 
 const DEFAULT_SETTINGS: AppSettings = {
   autoSync: false,
   theme: 'catppuccin-mocha',
-  urgencyAgeMax: 365,
   defaultPageSize: 20,
-  urgencyCoefficients: {
-    next: 15.0,
-    due: 12.0,
-    priorityH: 6.0,
-    priorityM: 3.9,
-    priorityL: 1.8,
-    age: 2.0,
-    tags: 1.0,
-    project: 1.0,
-  },
 };
 
 // In-memory cache for settings
@@ -123,14 +99,13 @@ export async function getSettings(): Promise<AppSettings> {
     const content = await fs.readFile(SETTINGS_FILE, 'utf-8');
     const parsed = parseSettings(content);
 
-    // Deep merge: ensure urgencyCoefficients are merged properly
+    // Keep only known keys, so fields from older versions (e.g. the
+    // urgency settings, now read from TaskWarrior) are dropped on next save
+    const merged = { ...DEFAULT_SETTINGS, ...parsed };
     settingsCache = {
-      ...DEFAULT_SETTINGS,
-      ...parsed,
-      urgencyCoefficients: {
-        ...DEFAULT_SETTINGS.urgencyCoefficients,
-        ...(parsed.urgencyCoefficients || {}),
-      },
+      autoSync: merged.autoSync,
+      theme: merged.theme,
+      defaultPageSize: merged.defaultPageSize,
     };
 
     cacheTimestamp = now;
