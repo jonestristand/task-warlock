@@ -99,6 +99,47 @@ This will persist:
 
 See `docker-compose.yml` for more configuration options.
 
+## 🤖 MCP Server (AI agents)
+
+TaskWarlock can expose your tasks to AI agents (Claude Code, Claude Desktop, other MCP clients) through an [MCP](https://modelcontextprotocol.io) endpoint at `/api/mcp` (Streamable HTTP).
+
+It is **off by default**. To enable it, set a token:
+
+```yaml
+environment:
+  - MCP_TOKEN=<generate with: openssl rand -hex 32>
+```
+
+Clients authenticate with `Authorization: Bearer <MCP_TOKEN>`. Requests without the right token get `401`, and requests from browsers (any `Origin` header) are refused.
+
+**Connecting Claude Code:**
+```bash
+claude mcp add --transport http taskwarlock http://task-warlock:3000/api/mcp \
+  --header "Authorization: Bearer <MCP_TOKEN>"
+```
+
+Use the hostname/port your client can reach: the container name on a shared Docker network, or a published port on your LAN.
+
+> **Security:** the MCP tools can modify and delete tasks. Keep the endpoint on your private network. If a reverse proxy exposes TaskWarlock publicly, block `/api/mcp` there.
+
+**Tools:**
+
+| Tool | Description |
+|---|---|
+| `list_tasks` | Pending / completed / all tasks, filtered by project (incl. sub-projects), tags, excluded tags, due before/after, description text |
+| `get_task` | One task by UUID, including annotations |
+| `list_projects` / `list_tags` | Projects and tags in use |
+| `add_task` | Create a task (description, project, priority, tags, due) |
+| `modify_task` | Change description, project, priority, due; add/remove tags |
+| `complete_task` / `restore_task` | Mark done / set back to pending (also undoes a delete) |
+| `delete_task` | Delete one task |
+| `annotate_task` | Add a note to a task |
+| `rename_project` | Rename a project on all tasks, keeping sub-projects |
+| `rename_tag` / `remove_tag` | Rename or remove a tag on all tasks |
+| `sync` | Run `task sync` |
+
+Projects and tags only exist on tasks in TaskWarrior, so they're created by using them in `add_task` / `modify_task`. Dates accept TaskWarrior syntax (`today`, `tomorrow`, `eow`, `2026-12-05`, ...). If auto-sync is enabled in settings, MCP writes sync too.
+
 ## 🎨 Themes
 
 TaskWarlock includes 14 beautiful themes:

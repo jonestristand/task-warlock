@@ -27,6 +27,10 @@ services:
       # Optional: Cron schedule for periodic `task sync` (default: every minute).
       # Set to "off" if you don't use a TaskWarrior sync server.
       # - TASK_SYNC_SCHEDULE=*/5 * * * *
+
+      # Optional: Enable the MCP endpoint (/api/mcp) for AI agents.
+      # Clients send "Authorization: Bearer <token>". Generate one with: openssl rand -hex 32
+      # - MCP_TOKEN=change-me
       
       # Optional: Disable Next.js telemetry
       - NEXT_TELEMETRY_DISABLED=1
