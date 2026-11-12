@@ -41,6 +41,14 @@ export async function exportTasks(filter: string[]): Promise<Task[]> {
   return TaskListSchema.parse(JSON.parse(stdout));
 }
 
+// TaskWarrior's own JSON for each matching task, with every attribute
+// (annotations, wait, scheduled, UDAs, ...) rather than the UI's subset
+export async function exportRawTasks(filter: string[]): Promise<Record<string, unknown>[]> {
+  const { stdout } = await task([...filter, 'export']);
+  if (!stdout.trim()) return [];
+  return JSON.parse(stdout);
+}
+
 export async function fetchTags(): Promise<string[]> {
   const { stdout } = await task(['_unique', 'tags']);
   const tags = new Set<string>();
